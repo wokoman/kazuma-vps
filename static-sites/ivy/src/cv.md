@@ -1,0 +1,79 @@
+---
+title: Curriculum vitæ
+---
+
+I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
+
+I'm using **Docker** and its tools (*docker-compose*, *Dockerfile*) with orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **Jenkins**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
+
+I prefer **Ubuntu** or **CentOS** environments under **Proxmox**, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
+
+I'm using either **[Git](https://github.com/wokoman)** or **Plastic SCM** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
+
+I have basic knowledge of **Python** language, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
+
+My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Nebula](https://github.com/slackhq/nebula)**, **[Portainer](https://www.portainer.io/)**, **Unifi Controller**, and **[Jenkins](https://www.jenkins.io/)** building this very website using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
+
+I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sharpening my Ansible, Terraform, Bash, and Python knowledge.
+
+# Career
+
+***
+
+## [GRIP Digital, s.r.o.](https://www.grip-digital.com/)
+**IT/System Administrator, DevOps**  
+*5/2019 - present*
+
+Do-it-all role, from desk-support to DevOps.
+
+I've deployed backend for an unannounced project to **Azure AKS**, including NGINX Ingress or ELK. Later moving the same project to **AWS EKS**, utilizing AWS's NLB, CloudWatch, S3, and more. This includes setting up a CI/CD pipeline from **TeamCity** using **Docker** images.
+
+I'm also managing company's on-premise infrastructure, keeping inventory using **Snipe-IT**, and servicing a multitude of internal tools (**Plastic SCM** server, **YouTrack**, **Upsource** and other).
+
+- server administration (Ubuntu, CentOS)
+- Kubernetes (AWS EKS, Azure AKS)
+- Docker
+- TeamCity
+- Ansible
+- Proxmox
+- Git, Plastic SCM
+- PostgreSQL
+- YouTrack
+- LDAP, Azure AD
+- Windows tech support
+- Networking (Cisco-based)
+
+***
+
+## [2media.cz, s.r.o.](https://www.2media.cz/)
+**IT Administrator**  
+*9/2012 - present*
+
+Point of contact for all employees. Mostly remote tech support on Windows and macOS machines.
+
+Being PR agency and relying heavily on emails, I'm managing an Ubuntu VPS with custom **Postfix** server, **Let's Encrypt** and **OpenDKIM** for them.
+
+- Windows, macOS, iOS tech support
+- Ubuntu, Postfix, AWS, DNS
+
+***
+
+## [Universal Music, s.r.o.](https://www.2media.cz/)
+**IT Administrator, Digital Releases Manager**  
+*4/2010 - 4/2019*
+
+Provided tech support role for both Czech and Slovak branches. Also managed on-premise **Windows server**, with having a little to do with **SCCM** and **AD**.
+
+Slowly moved into a digital releases manager, and being responsible for distributing everything digital incoming from any signed artist to services such as Spotify, Apple Music, YouTube, and more.
+
+I also made lots of short Instagram or YouTube video spots using **VEGAS Pro** and **Sony Sound Forge**. 
+
+- Windows, macOS, iOS, Android tech support
+- Windows Server 2003/2008
+- SCCM, AD, Exchange
+- AS/400
+- Junos Pulse, Duo Security, GlobalProtect
+- HTML/CSS
+- Audio/video digitization
+- Digital services management (Spotify, YouTube, all of them)
+- Video production (Instagram/YouTube spots, ads, etc.)
