@@ -167,48 +167,48 @@ spec:
       name: kazumatlsoption
       namespace: default
 
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: graphite
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`graphite.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: graphite-statsd
-      port: 80
-    middlewares:
-    - name: security
-    - name: basic-auth
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: graphite
+#   namespace: default
+# spec:
+#   entryPoints:
+#     - web
+#   routes:
+#   - match: Host(`graphite.michalkozak.cz`)
+#     kind: Rule
+#     services:
+#     - name: graphite-statsd
+#       port: 80
+#     middlewares:
+#     - name: security
+#     - name: basic-auth
 
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: graphite-tls
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`graphite.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: graphite-statsd
-      port: 80
-    middlewares:
-    - name: security
-    - name: basic-auth
-  tls:
-    certResolver: myresolver
-    options:
-      name: kazumatlsoption
-      namespace: default
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: graphite-tls
+#   namespace: default
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#   - match: Host(`graphite.michalkozak.cz`)
+#     kind: Rule
+#     services:
+#     - name: graphite-statsd
+#       port: 80
+#     middlewares:
+#     - name: security
+#     - name: basic-auth
+#   tls:
+#     certResolver: myresolver
+#     options:
+#       name: kazumatlsoption
+#       namespace: default
 
 # ---
 # apiVersion: traefik.containo.us/v1alpha1
