@@ -1,5 +1,6 @@
 ---
 title: Home
+meta_title: Michal Kozák × Personal website
 subtitle: Oh hi, Mark!
 ---
 
