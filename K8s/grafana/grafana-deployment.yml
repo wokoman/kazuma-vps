@@ -34,9 +34,19 @@ spec:
           volumeMounts:
           - name: grafana-data
             mountPath: /var/lib/grafana
+          - name: grafana-config
+            mountPath: /etc/grafana/grafana.ini
+            subPath: grafana.ini
       restartPolicy: Always
       volumes:
       - name: grafana-data
         persistentVolumeClaim:
           claimName: grafana-data
+      - name: grafana-config
+        configMap:
+          name: grafana-config
+          items:
+            - key: grafana.ini
+              path: grafana.ini
+              mode: 0644
 status: {}
