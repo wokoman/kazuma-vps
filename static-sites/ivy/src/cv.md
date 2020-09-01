@@ -2,6 +2,8 @@
 title: Curriculum vitæ
 ---
 
+- ***[Download my resume](@root/CV_en.pdf)***
+
 I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
 
 I'm using **Docker** and its tools (*docker-compose*, *Dockerfile*) with orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **Jenkins**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
