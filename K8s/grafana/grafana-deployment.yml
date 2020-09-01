@@ -32,4 +32,8 @@ spec:
               memory: "512Mi"
               cpu: "1"
       restartPolicy: Always
+      volumes:
+      - name: grafana-data
+        persistentVolumeClaim:
+          claimName: grafana-data
 status: {}
