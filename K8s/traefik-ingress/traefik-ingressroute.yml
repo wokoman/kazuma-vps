@@ -167,6 +167,48 @@ spec:
       name: kazumatlsoption
       namespace: default
 
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ervcp
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`ervcp.michalkozak.cz`)
+    kind: Rule
+    services:
+    - name: ervcp
+      namespace: ervcp
+      port: 8080
+    middlewares:
+    - name: security
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ervcp-tls
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`ervcp.michalkozak.cz`)
+    kind: Rule
+    services:
+    - name: ervcp
+      namespace: ervcp
+      port: 8080
+    middlewares:
+    - name: security
+  tls:
+    certResolver: myresolver
+    options:
+      name: kazumatlsoption
+      namespace: default
 # ---
 # apiVersion: traefik.containo.us/v1alpha1
 # kind: IngressRoute
