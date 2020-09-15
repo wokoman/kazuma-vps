@@ -49,7 +49,7 @@ I'm also managing company's on-premise infrastructure, keeping inventory using *
 
 ## [2media.cz, s.r.o.](https://www.2media.cz/)
 **IT Administrator**  
-*9/2012 - present*
+*9/2012 - 9/2020*
 
 Point of contact for all employees. Mostly remote tech support on Windows and macOS machines.
 
