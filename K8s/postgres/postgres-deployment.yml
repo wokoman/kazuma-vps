@@ -20,7 +20,7 @@ spec:
         app: postgres
     spec:
       containers:
-        - image: postgres:latest
+        - image: postgres:12
           name: postgres
           envFrom:
           - configMapRef:
