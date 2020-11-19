@@ -22,9 +22,20 @@ I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sha
 
 ***
 
+## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
+**Build Engineer**  
+*11/2020 - present*
+
+Helping with transition of **Java** builds to **Gitlab CI** from **Jenkins**, while utilizing **Gradle** and **Docker**.
+
+- Gitlab CI
+- Gradle
+
+***
+
 ## [GRIP Digital, s.r.o.](https://www.grip-digital.com/)
 **IT/System Administrator, DevOps**  
-*5/2019 - present*
+*5/2019 - 11/2020*
 
 Do-it-all role, from desk-support to DevOps.
 
@@ -49,7 +60,7 @@ I'm also managing company's on-premise infrastructure, keeping inventory using *
 
 ## [2media.cz, s.r.o.](https://www.2media.cz/)
 **IT Administrator**  
-*9/2012 - 9/2020*
+*9/2012 - 11/2020*
 
 Point of contact for all employees. Mostly remote tech support on Windows and macOS machines.
 
