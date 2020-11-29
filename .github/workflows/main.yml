@@ -24,12 +24,11 @@ jobs:
           cd static-sites/ivy
           ivy build
       - name: Copy static files to webserver
-        uses: trendyminds/github-actions-rsync@master
+        uses: burnett01/rsync-deployments@4.1
         with:
-          RSYNC_OPTIONS: -avzr --delete
-          RSYNC_TARGET: /home/${{secrets.SSH_USERNAME}}/caddy/web
-          RSYNC_SOURCE: /static-sites/ivy/out/
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
-          SSH_HOSTNAME: ${{secrets.SSH_HOSTNAME}}
+          switches: -avzr --delete
+          path: /static-sites/ivy/out/
+          remote_path: /home/${{secrets.SSH_USERNAME}}/caddy/web
+          remote_host: ${{secrets.SSH_HOSTNAME}}
+          remote_user: ${{secrets.SSH_USERNAME}}
+          remote_key: ${{secrets.SSH_PRIVATE_KEY}}
