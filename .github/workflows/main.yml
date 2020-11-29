@@ -28,5 +28,5 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           port: 22
           key: ${{secrets.SSH_PRIVATE_KEY}}
-          source: "/static-sites/ivy/out/"
+          source: "/static-sites/ivy/out/*"
           target: "/home/${{secrets.SSH_USERNAME}}/caddy/web"
