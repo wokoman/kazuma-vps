@@ -24,7 +24,7 @@ jobs:
       - name: Copy static files to webserver
         uses: burnett01/rsync-deployments@4.1
         with:
-          switches: -avzr --delete
+          switches: -avzr
           path: static-sites/ivy/out/
           remote_path: /home/${{secrets.SSH_USERNAME}}/caddy/web
           remote_host: ${{secrets.SSH_HOSTNAME}}
