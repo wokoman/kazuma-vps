@@ -28,9 +28,9 @@ I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sha
 **Build Engineer**  
 *11/2020 - present*
 
-Helping with transition of **Java** builds to **Gitlab CI/CD** from **Jenkins**, while utilizing **Gradle** and **Docker**.
+Helping with transition of **Java** builds to **GitLab CI/CD** from **Jenkins**, while utilizing **Gradle** and **Docker**.
 
-- Gitlab CI
+- GitLab CI/CD
 - Gradle
 - Renovate
 
