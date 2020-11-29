@@ -1,6 +1,9 @@
 name: Build and deploy the website
 
-on: [push]
+on:
+  push:
+    paths:
+    - 'static-sites/ivy/src/*'
 
 jobs:
   build:
