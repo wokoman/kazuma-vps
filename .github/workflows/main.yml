@@ -30,4 +30,4 @@ jobs:
           remote_host: ${{secrets.SSH_HOSTNAME}}
           remote_user: ${{secrets.SSH_USERNAME}}
           remote_key: ${{secrets.SSH_PRIVATE_KEY}}
-          args: "-tt -vvv"
+          remote_port: ${{secrets.SSH_PORT}}
