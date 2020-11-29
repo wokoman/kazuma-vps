@@ -6,15 +6,17 @@ title: Curriculum vitæ
 
 I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
 
-I'm using **Docker** and its tools (*docker-compose*, *Dockerfile*) with orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **Jenkins**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
+I'm using **Docker** and its tools (*docker-compose*, *Dockerfile*) with orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **GitLab CI/CD**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
 
 I prefer **Ubuntu** or **CentOS** environments under **Proxmox**, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
 
-I'm using either **[Git](https://github.com/wokoman)** or **Plastic SCM** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
+I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
 
 I have basic knowledge of **Python** language, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
-My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Nebula](https://github.com/slackhq/nebula)**, **[Portainer](https://www.portainer.io/)**, **Unifi Controller**, and **[Jenkins](https://www.jenkins.io/)** building this very website using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
+My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Nebula](https://github.com/slackhq/nebula)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
+
+This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
 
 I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sharpening my Ansible, Terraform, Bash, and Python knowledge.
 
@@ -26,10 +28,11 @@ I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sha
 **Build Engineer**  
 *11/2020 - present*
 
-Helping with transition of **Java** builds to **Gitlab CI** from **Jenkins**, while utilizing **Gradle** and **Docker**.
+Helping with transition of **Java** builds to **Gitlab CI/CD** from **Jenkins**, while utilizing **Gradle** and **Docker**.
 
 - Gitlab CI
 - Gradle
+- Renovate
 
 ***
 
