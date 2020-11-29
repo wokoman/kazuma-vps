@@ -22,11 +22,12 @@ jobs:
           cd static-sites/ivy
           ivy build
       - name: Copy static files to webserver
-        uses: appleboy/scp-action@master
+        uses: burnett01/rsync-deployments@4.1
         with:
-          host: ${{secrets.SSH_HOSTNAME}}
-          username: ${{secrets.SSH_USERNAME}}
-          port: 22
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-          source: "static-sites/ivy/out/*"
-          target: "/home/${{secrets.SSH_USERNAME}}/caddy/web"
+          switches: -avzr --delete
+          path: static-sites/ivy/out/
+          remote_path: /home/${{secrets.SSH_USERNAME}}/caddy/web
+          remote_host: ${{secrets.SSH_HOSTNAME}}
+          remote_user: ${{secrets.SSH_USERNAME}}
+          remote_key: ${{secrets.SSH_PRIVATE_KEY}}
+          args: "-tt -vvv"
