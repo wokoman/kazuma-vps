@@ -28,6 +28,7 @@ spec:
       containers:
         - name: traefik
           image: traefik:picodon
+          imagePullPolicy: Always
           args:
             - --api
             - --api.insecure=false
@@ -45,7 +46,7 @@ spec:
             # permanent redirecting of all requests on http (80) to https (443)
             - --entrypoints.web.http.redirections.entryPoint.to=websecure
             - --entrypoints.websecure.http.tls.certResolver=myresolver
-            - --experimental.pilot.token=38e39ac0-00b9-4bb1-9dad-47d0f1bdb14e
+            - --pilot.token=38e39ac0-00b9-4bb1-9dad-47d0f1bdb14e
           ports:
             - name: web
               containerPort: 80
