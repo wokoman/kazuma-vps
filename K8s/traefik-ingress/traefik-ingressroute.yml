@@ -209,6 +209,49 @@ spec:
     options:
       name: kazumatlsoption
       namespace: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: planka
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`planka.michalkozak.cz`)
+    kind: Rule
+    services:
+    - name: planka
+      namespace: default
+      port: 41337
+    middlewares:
+    - name: security
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: planka-tls
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`planka.michalkozak.cz`)
+    kind: Rule
+    services:
+    - name: planka
+      namespace: default
+      port: 41337
+    middlewares:
+    - name: security
+  tls:
+    certResolver: myresolver
+    options:
+      name: kazumatlsoption
+      namespace: default
 # ---
 # apiVersion: traefik.containo.us/v1alpha1
 # kind: IngressRoute

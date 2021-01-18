@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: planka
+  name: planka
+spec:
+  ports:
+  - name: "41337"
+    port: 41337
+    targetPort: 1337
+  selector:
+    app: planka
+status:
+  loadBalancer: {}
