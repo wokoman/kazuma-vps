@@ -6,19 +6,17 @@ title: Curriculum vitæ
 
 I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
 
-I'm using **Docker** and its tools (*docker-compose*, *Dockerfile*) with orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **GitLab CI/CD**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
+I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **GitLab CI/CD**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
 
-I prefer **Ubuntu** or **CentOS** environments under **Proxmox**, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
+I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've used **Proxmox** in the past, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
 
 I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
 
 I have basic knowledge of **Python** language, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
-My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Nebula](https://github.com/slackhq/nebula)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
+My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
 
 This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
-
-I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sharpening my Ansible, Terraform, Bash, and Python knowledge.
 
 # Career
 
@@ -28,10 +26,14 @@ I'm currently dabbling more into learning **Helm**, **Argo CD**, **Go**, and sha
 **Build Engineer**  
 *11/2020 - present*
 
-Helping with transition of **Java** builds to **GitLab CI/CD** from **Jenkins**, while utilizing **Gradle** and **Docker**.
+Helping with transition from **Jenkins** and **Bitbucket** to **GitLab CI/CD**.
+
+Mainly working with **Gradle** and **Java/Groovy** code.
 
 - GitLab CI/CD
 - Gradle
+- Java, Groovy, Python
+- Terraform
 - Renovate
 
 ***
@@ -44,7 +46,7 @@ Do-it-all role, from desk-support to DevOps.
 
 I've deployed backend for an unannounced project to **Azure AKS**, including NGINX Ingress or ELK. Later moving the same project to **AWS EKS**, utilizing AWS's NLB, CloudWatch, S3, and more. This includes setting up a CI/CD pipeline from **TeamCity** using **Docker** images.
 
-I'm also managing company's on-premise infrastructure, keeping inventory using **Snipe-IT**, and servicing a multitude of internal tools (**Plastic SCM** server, **YouTrack**, **Upsource** and other).
+I was also managing company's on-premise infrastructure, keeping inventory using **Snipe-IT**, and servicing a multitude of internal tools (**Plastic SCM** server, **YouTrack**, **Upsource** and other).
 
 - server administration (Ubuntu, CentOS)
 - Kubernetes (AWS EKS, Azure AKS)
@@ -67,7 +69,7 @@ I'm also managing company's on-premise infrastructure, keeping inventory using *
 
 Point of contact for all employees. Mostly remote tech support on Windows and macOS machines.
 
-Being PR agency and relying heavily on emails, I'm managing an Ubuntu VPS with custom **Postfix** server, **Let's Encrypt** and **OpenDKIM** for them.
+Being PR agency and relying heavily on emails, I was managing an Ubuntu VPS with custom **Postfix** server, **Let's Encrypt** and **OpenDKIM** for them.
 
 - Windows, macOS, iOS tech support
 - Ubuntu, Postfix, AWS, DNS
