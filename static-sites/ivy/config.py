@@ -7,7 +7,7 @@
 theme = "graphite"
 
 # Site title.
-title = "Site Title"
+title = "Michal Kozák"
 
 # Site tagline.
-tagline = "Just another Ivy site."
+tagline = "IT Admin, SysAdmin, DevOps guy"

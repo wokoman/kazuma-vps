@@ -30,7 +30,7 @@ Helping with transition from **Jenkins** and **Bitbucket** to **GitLab CI/CD**.
 
 Mainly working with **Gradle** and **Java/Groovy** code.
 
-- GitLab CI/CD
+- GitLab CI/CD, Jenkins
 - Gradle
 - Java, Groovy, Python
 - Terraform
