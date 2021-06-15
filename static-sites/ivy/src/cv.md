@@ -18,6 +18,8 @@ My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)
 
 This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
 
+I'm **[GitLab Certified Associate](https://api.badgr.io/public/assertions/RkQHnMn6Rl2Frq_vYoYJiw?identity__email=michal.kozak%40ataccama.com)**.
+
 # Career
 
 ***
@@ -26,9 +28,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 **Build Engineer**  
 *11/2020 - present*
 
-Helping with transition from **Jenkins** and **Bitbucket** to **GitLab CI/CD**.
-
-Mainly working with **Gradle** and **Java/Groovy** code.
+Responsibility for build pipelines and underlying systems. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash**, optimization of **Docker** images, configuration as code using **Terraform**, simple **Gradle** plugins.
 
 - GitLab CI/CD, Jenkins
 - Gradle
