@@ -6,13 +6,13 @@ title: Curriculum vitæ
 
 I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
 
-I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **TeamCity** or **GitLab CI/CD**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
+I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **GitLab CI/CD**, **Jenkins** or **TeamCity**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
 
 I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've used **Proxmox** in the past, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
 
 I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
 
-I have basic knowledge of **Python** language, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
+I have knowledge of **Python**, **Bash**, **Groovy** and **Rust** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
 My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
 
@@ -25,7 +25,8 @@ I'm **[GitLab Certified Associate](https://api.badgr.io/public/assertions/RkQHnM
 ***
 
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
-**Build Engineer**  
+
+**Build & IDP Engineer**  
 *11/2020 - present*
 
 Responsibility for build pipelines and underlying systems. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash**, optimization of **Docker** images, configuration as code using **Terraform**, simple **Gradle** plugins.
@@ -39,6 +40,7 @@ Responsibility for build pipelines and underlying systems. Developing and mainta
 ***
 
 ## [GRIP Digital, s.r.o.](https://www.grip-digital.com/)
+
 **IT/System Administrator, DevOps**  
 *5/2019 - 11/2020*
 
@@ -64,6 +66,7 @@ I was also managing company's on-premise infrastructure, keeping inventory using
 ***
 
 ## [2media.cz, s.r.o.](https://www.2media.cz/)
+
 **IT Administrator**  
 *9/2012 - 11/2020*
 
@@ -77,6 +80,7 @@ Being PR agency and relying heavily on emails, I was managing an Ubuntu VPS with
 ***
 
 ## [Universal Music, s.r.o.](https://www.2media.cz/)
+
 **IT Administrator, Digital Releases Manager**  
 *4/2010 - 4/2019*
 
@@ -84,7 +88,7 @@ Provided tech support role for both Czech and Slovak branches. Also managed on-p
 
 Slowly moved into a digital releases manager, and being responsible for distributing everything digital incoming from any signed artist to services such as Spotify, Apple Music, YouTube, and more.
 
-I also made lots of short Instagram or YouTube video spots using **VEGAS Pro** and **Sony Sound Forge**. 
+I also made lots of short Instagram or YouTube video spots using **VEGAS Pro** and **Sony Sound Forge**.
 
 - Windows, macOS, iOS, Android tech support
 - Windows Server 2003/2008
