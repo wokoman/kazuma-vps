@@ -12,7 +12,7 @@ I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've 
 
 I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
 
-I have knowledge of **Python**, **Bash**, **Groovy** and **Rust** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
+I have basic knowledge of **Python**, **Bash**, **Groovy**, **Rust** and **Go** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
 My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
 
