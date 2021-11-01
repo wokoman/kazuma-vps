@@ -26,16 +26,18 @@ I'm **[GitLab Certified Associate](https://api.badgr.io/public/assertions/RkQHnM
 
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
-**Build & IDP Engineer**  
+**DevOps Engineer**  
 *11/2020 - present*
 
-Responsibility for build pipelines and underlying systems. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash**, optimization of **Docker** images, configuration as code using **Terraform**, simple **Gradle** plugins.
+Responsibility for build pipelines and underlying internal developer platform. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash/Groovy**, optimization of **Docker** images, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform**, simple **Gradle** plugins.
 
-- GitLab CI/CD, Jenkins
+- GitLab, Jenkins
 - Gradle
-- Java, Groovy, Python
+- Python, Bash, Groovy
 - Terraform
-- Renovate
+- Grafana, Prometheus, VictoriaMetrics
+- Helm, ArgoCD, GitOps
+- Renovate, Artifactory
 
 ***
 
