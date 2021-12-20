@@ -64,29 +64,6 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: miniflux-tls
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`miniflux.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: miniflux
-      port: 20080
-    middlewares:
-    - name: security
-  tls:
-    certResolver: myresolver
-    options:
-      name: kazumatlsoption
-      namespace: default
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
   name: archiv
   namespace: default
 spec:
