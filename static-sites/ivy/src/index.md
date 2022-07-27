@@ -4,7 +4,7 @@ meta_title: Michal Kozák × Personal website
 subtitle: Oh hi, Mark!
 ---
 
-I'm *IT guy/SysAdmin/DevOps guy* who tries to learn [everything at once all the time](@root/cv//).
+I'm *DevOps guy* who tries to learn [everything at once all the time](@root/cv//).
 
 I forked and maintain [Quake 3 Arena OSP server docker image](https://github.com/wokoman/docker-quake3-osp-server).
 

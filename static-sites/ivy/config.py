@@ -10,4 +10,4 @@ theme = "graphite"
 title = "Michal Kozák"
 
 # Site tagline.
-tagline = "IT Admin, SysAdmin, DevOps guy"
+tagline = "DevOps guy"

@@ -8,9 +8,9 @@ I moved my focus to all things DevOps starting in February 2020 by learning **Ku
 
 I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **GitLab CI/CD**, **Jenkins** or **TeamCity**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
 
-I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've used **Proxmox** in the past, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure. I'm utilizing **SOPS** for managing secrets.
+I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've used **Proxmox** in the past, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure, as well as developing and maintaing **Helm** charts. I'm utilizing **SOPS** for managing secrets.
 
-I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*, with **YouTrack** for keeping track of bugs and tasks.
+I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*.
 
 I have basic knowledge of **Python**, **Bash**, **Groovy**, **Rust** and **Go** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
@@ -18,7 +18,7 @@ My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)
 
 This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
 
-I'm **[GitLab Certified Associate](https://api.badgr.io/public/assertions/RkQHnMn6Rl2Frq_vYoYJiw?identity__email=michal.kozak%40ataccama.com)**.
+I'm **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**.
 
 # Career
 
@@ -29,7 +29,7 @@ I'm **[GitLab Certified Associate](https://api.badgr.io/public/assertions/RkQHnM
 **DevOps Engineer**  
 *11/2020 - present*
 
-Responsibility for build pipelines and underlying internal developer platform. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash/Groovy**, optimization of **Docker** images, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform**, simple **Gradle** plugins.
+Responsibility for build pipelines and underlying internal developer platform. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash/Groovy**, optimization of **Docker** images, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform**, simple **Gradle** plugins. Development and maintenance of **Helm** charts.
 
 - GitLab, Jenkins
 - Gradle
