@@ -2,7 +2,7 @@
 
 This is a repo with for my Kubernetes resources and my personal page.
 
-As of now, this is used:
+As of now, this is using:
 
 - *Caddy* for a webserver
 - *Ivy* for generating my page
