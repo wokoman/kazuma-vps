@@ -46,7 +46,6 @@ spec:
             # permanent redirecting of all requests on http (80) to https (443)
             - --entrypoints.web.http.redirections.entryPoint.to=websecure
             - --entrypoints.websecure.http.tls.certResolver=myresolver
-            - --pilot.token=38e39ac0-00b9-4bb1-9dad-47d0f1bdb14e
           ports:
             - name: web
               containerPort: 80
@@ -54,3 +53,10 @@ spec:
               containerPort: 443
             - name: admin
               containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "100m"
+              memory: 128Mi

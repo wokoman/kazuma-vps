@@ -1,4 +1,2 @@
 .vscode
 static-sites/ivy/out
-.sops.yaml
-kazuma-k8s-config.yml

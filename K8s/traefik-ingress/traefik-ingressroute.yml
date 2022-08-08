@@ -1,37 +1,30 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: grafana
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`grafana.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: grafana
-      port: 3000
-    middlewares:
-    - name: security
-
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana-tls
-  namespace: default
+  name: argocd-server
+  namespace: argocd
 spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`grafana.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: grafana
-      port: 3000
-    middlewares:
-    - name: security
+    - match: Host(`argocd.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: security
+          namespace: default
+    - match: Host(`argocd.michalkozak.cz`) && Headers(`Content-Type`, `application/grpc`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+      middlewares:
+        - name: security
+          namespace: default
   tls:
     certResolver: myresolver
     options:
@@ -46,14 +39,14 @@ metadata:
   namespace: default
 spec:
   routes:
-  - match: Host(`kazuma.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: api@internal
-      kind: TraefikService
-    middlewares: 
-    - name: basic-auth
-    - name: security
+    - match: Host(`kazuma.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: basic-auth
+        - name: security
   tls:
     certResolver: myresolver
     options:
@@ -70,13 +63,13 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: Host(`archiv.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: caddy
-      port: 30081
-    middlewares:
-    - name: security
+    - match: Host(`archiv.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: caddy
+          port: 30081
+      middlewares:
+        - name: security
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -88,13 +81,13 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`archiv.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: caddy
-      port: 30081
-    middlewares:
-    - name: security
+    - match: Host(`archiv.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: caddy
+          port: 30081
+      middlewares:
+        - name: security
   tls:
     certResolver: myresolver
     options:
@@ -111,14 +104,14 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: Host(`michalkozak.cz`,`www.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: caddy
-      port: 30080
-    middlewares:
-    - name: security
-    - name: removewww
+    - match: Host(`michalkozak.cz`,`www.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: caddy
+          port: 30080
+      middlewares:
+        - name: security
+        - name: removewww
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -130,158 +123,16 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`michalkozak.cz`,`www.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: caddy
-      port: 30080
-    middlewares:
-    - name: security
-    - name: removewww
+    - match: Host(`michalkozak.cz`,`www.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: caddy
+          port: 30080
+      middlewares:
+        - name: security
+        - name: removewww
   tls:
     certResolver: myresolver
     options:
       name: kazumatlsoption
       namespace: default
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: ervcp
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`ervcp.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: ervcp
-      namespace: ervcp
-      port: 8080
-    middlewares:
-    - name: security
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: ervcp-tls
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`ervcp.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: ervcp
-      namespace: ervcp
-      port: 8080
-    middlewares:
-    - name: security
-  tls:
-    certResolver: myresolver
-    options:
-      name: kazumatlsoption
-      namespace: default
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: planka
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`planka.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: planka
-      namespace: default
-      port: 41337
-    middlewares:
-    - name: security
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: planka-tls
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`planka.michalkozak.cz`)
-    kind: Rule
-    services:
-    - name: planka
-      namespace: default
-      port: 41337
-    middlewares:
-    - name: security
-  tls:
-    certResolver: myresolver
-    options:
-      name: kazumatlsoption
-      namespace: default
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: graphite
-#   namespace: default
-# spec:
-#   entryPoints:
-#     - web
-#   routes:
-#   - match: Host(`graphite.michalkozak.cz`)
-#     kind: Rule
-#     services:
-#     - name: graphite-statsd
-#       port: 80
-#     middlewares:
-#     - name: security
-#     - name: basic-auth
-
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: graphite-tls
-#   namespace: default
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#   - match: Host(`graphite.michalkozak.cz`)
-#     kind: Rule
-#     services:
-#     - name: graphite-statsd
-#       port: 80
-#     middlewares:
-#     - name: security
-#     - name: basic-auth
-#   tls:
-#     certResolver: myresolver
-#     options:
-#       name: kazumatlsoption
-#       namespace: default
-
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRouteUDP
-# metadata:
-#   name: statsd
-# spec:
-#   entryPoints:
-#     - statsd
-#   routes:
-#   - services:
-#     - name: graphite-statsd
-#       port: 8125
-#       weight: 10
