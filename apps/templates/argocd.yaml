@@ -17,8 +17,6 @@ spec:
           enabled: false
         applicationSet:
           enabled: false
-        redis:
-          enabled: false
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
