@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: traefik
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://traefik.github.io/charts'
+    targetRevision: 20.8.0
+    chart: traefik
+    helm:
+      values: |
+        certResolvers:
+          letsencrypt:
+            email: me@michalkozak.cz
+            tlsChallenge: true
+            httpChallenge:
+              entryPoint: "web"
+            storage: acme.json
+        service:
+          externalIPs:
+            - 94.112.245.206
+          spec:
+            externalTrafficPolicy: Cluster
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: traefik
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
