@@ -11,6 +11,14 @@ spec:
     repoURL: 'https://argoproj.github.io/argo-helm'
     targetRevision: 5.16.13
     chart: argo-cd
+    helm:
+      values: |
+        dex:
+          enabled: false
+        applicationSet:
+          enabled: false
+        redis:
+          enabled: false
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
