@@ -32,6 +32,10 @@ spec:
             - 94.112.245.206
           spec:
             externalTrafficPolicy: Cluster
+        providers:
+          kubernetesIngress:
+            ingressEndpoint:
+              publishedService: "traefik/traefik"
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: traefik
