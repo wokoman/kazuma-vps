@@ -13,13 +13,20 @@ spec:
     chart: traefik
     helm:
       values: |
+        persistence:
+          enabled: true
+          name: data
+          accessMode: ReadWriteOnce
+          size: 128Mi
+          storageClass: microk8s-hostpath
+          path: /data
         certResolvers:
           letsencrypt:
             email: me@michalkozak.cz
             tlsChallenge: true
             httpChallenge:
               entryPoint: "web"
-            storage: acme.json
+            storage: /data/acme.json
         service:
           externalIPs:
             - 94.112.245.206
