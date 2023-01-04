@@ -11,13 +11,12 @@ spec:
     repoURL: 'https://argoproj.github.io/argo-helm'
     targetRevision: 5.16.14
     chart: argo-cd
-    # helm:
-    #   values: |
-    #     server:
-    #       extraArgs:
-    #         - "--insecure"
-    #     dex:
-    #       enabled: "false"        
+    helm:
+      values: |
+        applicationSet:
+          enabled: "false"
+        dex:
+          enabled: "false"
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
