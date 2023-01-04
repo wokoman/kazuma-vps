@@ -12,5 +12,5 @@ spec:
     targetRevision: 0.2.0
     chart: miniflux
   destination:
-    server: "https://kubernetes.default.svc"
+    server: {{ .Values.spec.destination.server }}
     namespace: miniflux
