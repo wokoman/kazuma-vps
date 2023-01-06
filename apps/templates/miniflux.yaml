@@ -11,6 +11,11 @@ spec:
     repoURL: 'https://charts.gabe565.com'
     targetRevision: 0.2.0
     chart: miniflux
+    helm:
+      values: |
+        env:
+          CREATE_ADMIN: "0"
+          POLLING_FREQUENCY: "5"
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: miniflux
