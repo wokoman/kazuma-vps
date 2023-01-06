@@ -1,35 +1,33 @@
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: argocd-server
-#   namespace: argocd
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`argocd.michalkozak.cz`)
-#       kind: Rule
-#       services:
-#         - name: argocd-server
-#           port: 80
-#       middlewares:
-#         - name: security
-#           namespace: default
-#     - match: Host(`argocd.michalkozak.cz`) && Headers(`Content-Type`, `application/grpc`)
-#       kind: Rule
-#       services:
-#         - name: argocd-server
-#           port: 80
-#           scheme: h2c
-#       middlewares:
-#         - name: security
-#           namespace: default
-#   tls:
-#     certResolver: myresolver
-#     options:
-#       name: kazumatlsoption
-#       namespace: default
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`argocd.michalkozak.cz`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          namespace: argocd
+          port: 80
+      # middlewares:
+      #   - name: security
+      #     namespace: default
+    # - match: Host(`argocd.michalkozak.cz`) && Headers(`Content-Type`, `application/grpc`)
+    #   kind: Rule
+    #   services:
+    #     - name: argocd-server
+    #       port: 80
+    #       scheme: h2c
+      # middlewares:
+      #   - name: security
+      #     namespace: default
+  tls:
+    certResolver: letsencrypt
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute

@@ -17,6 +17,9 @@ spec:
           enabled: "false"
         dex:
           enabled: "false"
+        configs:
+          params:
+            server.insecure: "true"
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: argocd
