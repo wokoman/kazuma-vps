@@ -26,7 +26,7 @@ jobs:
           cd static-sites/ivy
           ivy build
       - name: Copy static files to webserver
-        uses: burnett01/rsync-deployments@4.1
+        uses: burnett01/rsync-deployments@5.2
         with:
           switches: -avzr
           path: static-sites/ivy/out/
