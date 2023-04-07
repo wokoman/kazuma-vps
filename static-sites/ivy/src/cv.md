@@ -30,14 +30,14 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 **Cloud Platform Engineer**  
 *11/2020 - present*
 
-Responsibility for build pipelines and underlying internal developer platform. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash/Groovy**, optimization of **Docker** images, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform**, simple **Gradle** plugins. Development and maintenance of **Helm** charts.
+Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automatization scripts in **Python/Bash/Groovy**, **Docker** images optimalization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
 
 * GitLab, Jenkins
 * Python, Bash, Groovy
-* Terraform
+* Terraform, Terragrunt
 * Grafana, Prometheus, VictoriaMetrics
 * Helm, ArgoCD, GitOps
-* Renovate, Artifactory
+* Renovate, Artifactory, Harbor
 
 ***
 
