@@ -1,6 +1,6 @@
 # Graphite
 
-A simple Ivy theme designed for generating project documentation.
+A simple Ark theme designed for generating project documentation.
 
 
 ## Includes

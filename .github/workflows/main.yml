@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-    - 'static-sites/ivy/src/*'
+    - 'static-sites/ark/*'
 
 jobs:
   docker:
