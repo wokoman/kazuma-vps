@@ -5,7 +5,7 @@ This is a repo with for my Kubernetes resources and my personal page.
 As of now, this is using:
 
 - *Caddy* for a webserver
-- *Ivy* for generating my page
+- *Ark* for generating my page
 - ~~*Grafana* and *Graphite & StatsD* for playing around~~
 - ~~*Planka* as a Trello wannabe~~
 - ~~*PostgreSQL* for Planka~~

@@ -1,2 +1,3 @@
 .vscode
-static-sites/ivy/out
+.DS_Store
+static-sites/ark/out

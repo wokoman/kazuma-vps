@@ -2,6 +2,8 @@
 title: Curriculum vitæ
 ---
 
+- ***[Download my resume](@root/CV_en.pdf)***
+
 I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
 
 I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **GitLab CI/CD**, **Jenkins** or **TeamCity**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
@@ -12,7 +14,7 @@ I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*.
 
 I have basic knowledge of **Python**, **Bash**, **Groovy**, **Rust** and **Go** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
-This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
+This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ark](https://github.com/dmulholl/ark)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
 
 # Certifications
 
