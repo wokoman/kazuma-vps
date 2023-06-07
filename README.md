@@ -1,21 +1,16 @@
 # Kazuma VPS
 
-This is a repo with for my Kubernetes resources and my personal page.
+This is a repo with for my Kubernetes resources and [my personal page](https://michalkozak.cz).
 
-As of now, this is using:
+It's operated the GitOps-way through **ArgoCD**.
 
+As of now, there is:
+
+- *Ark* for generating my page
 - *Caddy* for a webserver
-- *Ivy* for generating my page
-- ~~*Grafana* and *Graphite & StatsD* for playing around~~
-- ~~*Planka* as a Trello wannabe~~
-- ~~*PostgreSQL* for Planka~~
-- ~~*Praqma* for debugging~~
+- *Miniflux* for RSS reading
 - *Traefik* for ingress
 
 There's a *GitHub Action* YAML, that updates my page whenever I change one of the sources for it.
-
-*Ansible* playbook in this repo is a echo of a past, when I was provisioning one's VM.
-
-~~I'll redone this for ArgoCD/Flux, I promise.~~ I'm redoing it with ArgoCD right now, I promise.
 
 I also need a blog. Maybe.

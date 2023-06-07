@@ -14,11 +14,14 @@ I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*.
 
 I have basic knowledge of **Python**, **Bash**, **Groovy**, **Rust** and **Go** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
 
-My homelab is running on multiple nodes of **[Ubuntu](https://ubuntu.com/server)** machines, serving me all-dockerized **[Quake 3 Arena OSP dedicated server](https://github.com/wokoman/docker-quake3-osp-server)**, **[Pi-hole](https://pi-hole.net/)**, **[Portainer](https://www.portainer.io/)** and **Unifi Controller**.
+This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ark](https://github.com/dmulholl/ark)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
 
-This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ivy](https://github.com/dmulholl/ivy)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
+# Certifications
 
-I'm **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**.
+***
+
+* **[Certified Kubernetes Administrator](https://www.credly.com/badges/a058d02d-41ee-458d-beeb-de95d06d5d83/public_url)**
+* **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**
 
 # Career
 
@@ -26,18 +29,17 @@ I'm **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4
 
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
-**DevOps Engineer**  
+**Cloud Platform Engineer**  
 *11/2020 - present*
 
-Responsibility for build pipelines and underlying internal developer platform. Developing and maintaining legacy **Jenkins** instances, while migrating projects to **GitLab** in Azure. Automatization scripts in **Python/Bash/Groovy**, optimization of **Docker** images, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform**, simple **Gradle** plugins. Development and maintenance of **Helm** charts.
+Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automatization scripts in **Python/Bash/Groovy**, **Docker** images optimalization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
 
-- GitLab, Jenkins
-- Gradle
-- Python, Bash, Groovy
-- Terraform
-- Grafana, Prometheus, VictoriaMetrics
-- Helm, ArgoCD, GitOps
-- Renovate, Artifactory
+* GitLab, Jenkins
+* Python, Bash, Groovy
+* Terraform, Terragrunt
+* Grafana, Prometheus, VictoriaMetrics
+* Helm, ArgoCD, GitOps
+* Renovate, Artifactory, Harbor
 
 ***
 
@@ -52,18 +54,18 @@ I've deployed backend for an unannounced project to **Azure AKS**, including NGI
 
 I was also managing company's on-premise infrastructure, keeping inventory using **Snipe-IT**, and servicing a multitude of internal tools (**Plastic SCM** server, **YouTrack**, **Upsource** and other).
 
-- server administration (Ubuntu, CentOS)
-- Kubernetes (AWS EKS, Azure AKS)
-- Docker
-- TeamCity
-- Ansible
-- Proxmox
-- Git, Plastic SCM
-- PostgreSQL
-- YouTrack
-- LDAP, Azure AD
-- Windows tech support
-- Networking (Cisco-based)
+* server administration (Ubuntu, CentOS)
+* Kubernetes (AWS EKS, Azure AKS)
+* Docker
+* TeamCity
+* Ansible
+* Proxmox
+* Git, Plastic SCM
+* PostgreSQL
+* YouTrack
+* LDAP, Azure AD
+* Windows tech support
+* Networking (Cisco-based)
 
 ***
 
@@ -76,8 +78,8 @@ Point of contact for all employees. Mostly remote tech support on Windows and ma
 
 Being PR agency and relying heavily on emails, I was managing an Ubuntu VPS with custom **Postfix** server, **Let's Encrypt** and **OpenDKIM** for them.
 
-- Windows, macOS, iOS tech support
-- Ubuntu, Postfix, AWS, DNS
+* Windows, macOS, iOS tech support
+* Ubuntu, Postfix, AWS, DNS
 
 ***
 
@@ -92,12 +94,12 @@ Slowly moved into a digital releases manager, and being responsible for distribu
 
 I also made lots of short Instagram or YouTube video spots using **VEGAS Pro** and **Sony Sound Forge**.
 
-- Windows, macOS, iOS, Android tech support
-- Windows Server 2003/2008
-- SCCM, AD, Exchange
-- AS/400
-- Junos Pulse, Duo Security, GlobalProtect
-- HTML/CSS
-- Audio/video digitization
-- Digital services management (Spotify, YouTube, all of them)
-- Video production (Instagram/YouTube spots, ads, etc.)
+* Windows, macOS, iOS, Android tech support
+* Windows Server 2003/2008
+* SCCM, AD, Exchange
+* AS/400
+* Junos Pulse, Duo Security, GlobalProtect
+* HTML/CSS
+* Audio/video digitization
+* Digital services management (Spotify, YouTube, all of them)
+* Video production (Instagram/YouTube spots, ads, etc.)
