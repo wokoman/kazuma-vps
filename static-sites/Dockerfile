@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/python:3.11.3-bullseye as BUILDER
+FROM public.ecr.aws/docker/library/python:3.11.4-bullseye as BUILDER
 COPY /ark /ark
 WORKDIR /ark
 RUN pip install ark==7.1.0
