@@ -30,7 +30,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
 **Cloud Platform Engineer**  
-*11/2020 - present*
+*11/2020 - 7/2023*
 
 Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automatization scripts in **Python/Bash/Groovy**, **Docker** images optimalization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
 
