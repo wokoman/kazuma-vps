@@ -20,6 +20,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 
 ***
 
+* **[AWS Certified Solutions Architect – Associate](https://www.credly.com/badges/6d4f99bb-7876-488a-8090-858686dd5373/public_url)**
 * **[Certified Kubernetes Administrator](https://www.credly.com/badges/a058d02d-41ee-458d-beeb-de95d06d5d83/public_url)**
 * **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**
 
@@ -29,7 +30,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
-**Cloud Platform Engineer**  
+**Cloud Platform Engineer**
 *11/2020 - 7/2023*
 
 Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automatization scripts in **Python/Bash/Groovy**, **Docker** images optimalization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
@@ -45,7 +46,7 @@ Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**,
 
 ## [GRIP Digital, s.r.o.](https://www.grip-digital.com/)
 
-**IT/System Administrator, DevOps**  
+**IT/System Administrator, DevOps**
 *5/2019 - 11/2020*
 
 Do-it-all role, from desk-support to DevOps.
@@ -71,7 +72,7 @@ I was also managing company's on-premise infrastructure, keeping inventory using
 
 ## [2media.cz, s.r.o.](https://www.2media.cz/)
 
-**IT Administrator**  
+**IT Administrator**
 *9/2012 - 11/2020*
 
 Point of contact for all employees. Mostly remote tech support on Windows and macOS machines.
@@ -85,7 +86,7 @@ Being PR agency and relying heavily on emails, I was managing an Ubuntu VPS with
 
 ## [Universal Music, s.r.o.](https://www.2media.cz/)
 
-**IT Administrator, Digital Releases Manager**  
+**IT Administrator, Digital Releases Manager**
 *4/2010 - 4/2019*
 
 Provided tech support role for both Czech and Slovak branches. Also managed on-premise **Windows server**, with having a little to do with **SCCM** and **AD**.
