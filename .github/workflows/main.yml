@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
+          printf "${{ secrets.KUBECONFIG }}" > kubeconfig
           cat kubeconfig
