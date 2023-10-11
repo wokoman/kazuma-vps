@@ -12,4 +12,4 @@ jobs:
     steps:
       - run: |
           echo ${{ secrets.KUBECONFIG }} > kubeconfig
-          kubectl --kubeconfig kubeconfig get pods
+          cat kubeconfig
