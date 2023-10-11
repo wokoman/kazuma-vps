@@ -12,9 +12,10 @@ jobs:
     steps:
       - run: |
           export DEPLOYMENT_NAMESPACE="test"
+          export KUBECONFIG="./kubeconfig"
           cat <<< "${{ secrets.KUBECONFIG }}" > kubeconfig
-          if [ ! "$(kubectl --kubeconfig kubeconfig get namespace ${DEPLOYMENT_NAMESPACE})" ]; then
-            kubectl --kubeconfig kubeconfig create namespace "${DEPLOYMENT_NAMESPACE}"
-            kubectl --kubeconfig kubeconfig wait --for=condition=Ready --timeout=60s namespace/${DEPLOYMENT_NAMESPACE}
+          if [ ! "$(kubectl kubeconfig get namespace ${DEPLOYMENT_NAMESPACE})" ]; then
+            kubectl kubeconfig create namespace "${DEPLOYMENT_NAMESPACE}"
+            kubectl kubeconfig wait --for=condition=available --timeout=60s namespace/${DEPLOYMENT_NAMESPACE}
           fi
-          kubectl --kubeconfig kubeconfig get namespace
+          kubectl kubeconfig get namespace
