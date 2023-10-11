@@ -15,6 +15,6 @@ jobs:
           cat <<< "${{ secrets.KUBECONFIG }}" > kubeconfig
           if [ ! "$(kubectl --kubeconfig kubeconfig get namespace ${DEPLOYMENT_NAMESPACE})" ]; then
             kubectl create namespace "${DEPLOYMENT_NAMESPACE}"
+            kubectl wait --for=condition=Ready --timeout=60s namespace/${DEPLOYMENT_NAMESPACE}
           fi
-          kubectl wait --for=condition=Ready --timeout=60s namespace/${DEPLOYMENT_NAMESPACE}
           kubectl --kubeconfig kubeconfig get namespace
