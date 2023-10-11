@@ -12,11 +12,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.0
-      - run: |
-          export DEPLOYMENT_NAMESPACE=$(yq eval '.jobs.docker.runs-on' ./.github/workflows/main.yml)
-          echo $DEPLOYMENT_NAMESPACE
-          export IMAGE_TAG="sha-$(echo ${{ github.sha }} | cut -c1-7 )"
-          echo $IMAGE_TAG
+      - name: Update deployment manifest
+        uses: mikefarah/yq@v4.35.1
+        with:
+          cmd: |
+            export DEPLOYMENT_NAMESPACE=$(yq eval '.jobs.docker.runs-on' ./.github/workflows/main.yml)
+            echo $DEPLOYMENT_NAMESPACE
+            export IMAGE_TAG="sha-$(echo ${{ github.sha }} | cut -c1-7 )"
+            echo $IMAGE_TAG
       # - run: |
       #     echo $DEPLOYMENT_NAMESPACE
       #     export DEPLOYMENT_NAMESPACE=$(yq eval '.jobs.docker.runs-on' ./.github/workflows/main.yml)
