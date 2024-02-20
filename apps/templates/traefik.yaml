@@ -4,12 +4,12 @@ metadata:
   name: traefik
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://traefik.github.io/charts'
-    targetRevision: 21.2.1
+    repoURL: "https://traefik.github.io/charts"
+    targetRevision: 21.2.1 # renovate: depName=traefik/traefik-helm-chart extractVersion=^v(?<version>.+)$
     chart: traefik
     helm:
       values: |
@@ -39,5 +39,5 @@ spec:
             publishedService:
               enabled: true
   destination:
-    server: {{ .Values.spec.destination.server }}
+    server: { { .Values.spec.destination.server } }
     namespace: traefik
