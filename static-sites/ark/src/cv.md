@@ -28,6 +28,25 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 
 ***
 
+## [Keboola Czech s.r.o.](https://www.keboola.com/)
+
+**Cloud Infractrucure Engineer**
+*11/2023 - present*
+
+Too soon to write short summary, but I'm working with:
+
+* GCP, Azure, AWS
+* Kubernetes
+* Terraform, ARM
+* GitHub Actions, Azure DevOps
+* Datadog
+* Python, Bash
+
+## Career break
+*8/2023 - 10/2023*
+
+Taking some time off to refresh and spend with my family. Manage to get myself a AWS cert and help out on a small engineering project along the way.
+
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
 **Cloud Platform Engineer**
