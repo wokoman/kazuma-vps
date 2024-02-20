@@ -4,12 +4,12 @@ metadata:
   name: argocd
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://argoproj.github.io/argo-helm'
-    targetRevision: 5.38.0
+    repoURL: "https://argoproj.github.io/argo-helm"
+    targetRevision: 5.38.0 # renovate: depName=argoproj/argo-helm extractVersion=^argo-cd-(?<version>.+)$
     chart: argo-cd
     helm:
       values: |
@@ -21,5 +21,5 @@ spec:
           params:
             server.insecure: "true"
   destination:
-    server: {{ .Values.spec.destination.server }}
+    server: { { .Values.spec.destination.server } }
     namespace: argocd
