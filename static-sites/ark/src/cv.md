@@ -20,6 +20,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 
 ***
 
+* **[AWS Certified Advanced Networking – Specialty](https://www.credly.com/badges/703bfe6a-1138-4e6c-aafb-5c8a65f1d77c/public_url)**
 * **[AWS Certified Solutions Architect – Associate](https://www.credly.com/badges/6d4f99bb-7876-488a-8090-858686dd5373/public_url)**
 * **[Certified Kubernetes Administrator](https://www.credly.com/badges/a058d02d-41ee-458d-beeb-de95d06d5d83/public_url)**
 * **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**
