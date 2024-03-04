@@ -37,8 +37,6 @@ spec:
             externalTrafficPolicy: Cluster
         providers:
           kubernetesIngress:
-            ingressEndpoint:
-              publishedService: "traefik/traefik"
             publishedService:
               enabled: true
   destination:
