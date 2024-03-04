@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://charts.gabe565.com"
-    targetRevision: 0.8.0 # renovate: depName=gabe565/charts extractVersion=^miniflux-(?<version>.+)$
+    targetRevision: 0.6.2 # renovate: depName=gabe565/charts extractVersion=^miniflux-(?<version>.+)$
     chart: miniflux
     helm:
       values: |
