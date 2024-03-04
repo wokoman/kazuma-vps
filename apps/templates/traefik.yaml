@@ -39,5 +39,5 @@ spec:
             publishedService:
               enabled: true
   destination:
-    server: { { .Values.spec.destination.server } }
+    server: {{ .Values.spec.destination.server }}
     namespace: traefik

@@ -18,5 +18,5 @@ spec:
           POLLING_FREQUENCY: "5"
           POLLING_PARSING_ERROR_LIMIT: "0"
   destination:
-    server: { { .Values.spec.destination.server } }
+    server: {{ .Values.spec.destination.server }}
     namespace: miniflux
