@@ -21,7 +21,57 @@ spec:
           scheme: h2c
   tls:
     certResolver: letsencrypt
-
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: miniflux
+  namespace: miniflux
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`miniflux.michalkozak.cz`)
+      services:
+        - name: miniflux
+          namespace: miniflux
+          port: 8080
+  tls:
+    certResolver: letsencrypt
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: website
+  namespace: website
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`michalkozak.cz`,`www.michalkozak.cz`)
+      services:
+        - name: website
+          namespace: website
+          port: 80
+  tls:
+    certResolver: letsencrypt
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: traefik-dashboard
+#   namespace: traefik
+# spec:
+#   entryPoints:
+#     - traefik
+#   routes:
+#     - kind: Rule
+#       match: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+#       services:
+#         - kind: TraefikService
+#           name: api@internal
 # ---
 # apiVersion: traefik.containo.us/v1alpha1
 # kind: IngressRoute
