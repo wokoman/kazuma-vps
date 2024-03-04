@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://traefik.github.io/charts"
-    targetRevision: 22.3.0 # renovate: depName=traefik/traefik-helm-chart extractVersion=^v(?<version>.+)$
+    targetRevision: 23.2.0 # renovate: depName=traefik/traefik-helm-chart extractVersion=^v(?<version>.+)$
     chart: traefik
     helm:
       values: |
