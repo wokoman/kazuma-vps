@@ -9,15 +9,19 @@ spec:
   project: default
   source:
     repoURL: "https://charts.gabe565.com"
-    targetRevision: 0.6.2 # renovate: depName=gabe565/charts extractVersion=^miniflux-(?<version>.+)$
+    targetRevision: 0.8.0 # renovate: depName=gabe565/charts extractVersion=^miniflux-(?<version>.+)$
     chart: miniflux
     helm:
       values: |
+        controller:
+          replicas: 0
         env:
           CREATE_ADMIN: "0"
           POLLING_FREQUENCY: "5"
           POLLING_PARSING_ERROR_LIMIT: "0"
           RUN_MIGRATIONS: "1"
+        postgresql:
+          postgresqlDataDir: /bitnami/postgresql/data_16
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: miniflux
