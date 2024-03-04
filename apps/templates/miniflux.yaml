@@ -13,8 +13,6 @@ spec:
     chart: miniflux
     helm:
       values: |
-        controller:
-          replicas: 0
         env:
           CREATE_ADMIN: "0"
           POLLING_FREQUENCY: "5"
