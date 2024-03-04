@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-ingress
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/wokoman/kazuma-vps.git"
+    targetRevision: HEAD
+    path: apps/traefik-ingress
+  destination:
+    server: {{ .Values.spec.destination.server }}
+    namespace: traefik
