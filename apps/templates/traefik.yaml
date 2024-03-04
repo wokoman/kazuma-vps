@@ -38,7 +38,7 @@ spec:
         providers:
           kubernetesIngress:
             ingressEndpoint:
-              publishedService: "traefik/traefik"
+              hostname: michalkozak.cz
             publishedService:
               enabled: true
   destination:
