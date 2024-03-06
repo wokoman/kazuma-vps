@@ -29,7 +29,7 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 
 ***
 
-## [Keboola Czech s.r.o.](https://www.keboola.com/)
+## [Keboola :(){:|:&};: s.r.o.](https://www.keboola.com/)
 
 **Cloud Infrastructure Engineer**
 *11/2023 - present*
