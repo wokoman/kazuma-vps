@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://argoproj.github.io/argo-helm"
-    targetRevision: 7.5.2 # renovate: depName=argoproj/argo-helm extractVersion=^argo-cd-(?<version>.+)$
+    targetRevision: 7.6.12 # renovate: depName=argoproj/argo-helm extractVersion=^argo-cd-(?<version>.+)$
     chart: argo-cd
     helm:
       values: |
