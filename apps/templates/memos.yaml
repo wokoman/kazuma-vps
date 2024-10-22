@@ -11,6 +11,16 @@ spec:
     repoURL: "https://charts.gabe565.com"
     targetRevision: 0.15.1 # renovate: depName=gabe565/charts extractVersion=^memos-(?<version>.+)$
     chart: memos
+    helm:
+      values: |
+        persistence:
+          data:
+            enabled: true
+            mountPath: /var/opt/memos
+            retain: true
+            storageClass: microk8s-hostpath
+            accessMode: ReadWriteOnce
+            size: 2Gi
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: memos
