@@ -57,24 +57,6 @@ spec:
           port: 80
   tls:
     certResolver: letsencrypt
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: memos
-  namespace: memos
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`memos.michalkozak.cz`)
-      services:
-        - name: memos
-          namespace: memos
-          port: 5230
-  tls:
-    certResolver: letsencrypt
 # ---
 # apiVersion: traefik.io/v1alpha1
 # kind: IngressRoute
