@@ -34,14 +34,15 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 **Cloud Infrastructure Engineer**
 *11/2023 - present*
 
-Too soon to write short summary, but I'm working with:
+Spearheading the transition to GitOps-based deployments using Argo CD, developing Helm charts, owning GCP (governance, cost management, improvements, etc.), providing expertise in GitHub Actions pipelines (infrastructure automation, build workflows, monitoring, etc.), working across all three major cloud providers, maintaining Azure DevOps pipelines, and prototyping a Kubernetes operator with a custom runtime for AI agents.
 
 * GCP, Azure, AWS
 * Kubernetes
 * Terraform, ARM
+* Argo CD, Helm
 * GitHub Actions, Azure DevOps
 * Datadog
-* Python, Bash
+* Python, Bash, Go
 
 ## Career break
 *8/2023 - 10/2023*
