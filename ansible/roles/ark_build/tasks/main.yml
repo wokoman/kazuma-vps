@@ -1,5 +1,12 @@
 ---
-- block:
+- name: Build Ark site on controller
+  delegate_to: localhost
+  run_once: true
+  become: false
+  vars:
+    ansible_become: false
+  when: not ansible_check_mode
+  block:
     - name: Create Ark virtualenv on controller
       pip:
         name: pip
@@ -15,13 +22,7 @@
       command: "{{ ark_venv | default(playbook_dir + '/../../.venv/ark') }}/bin/ark build"
       args:
         chdir: "{{ playbook_dir + '/../../' + ark_src_dir }}"
-
-  delegate_to: localhost
-  run_once: true
-  become: false
-  vars:
-    ansible_become: false
-  when: not ansible_check_mode
+        creates: "{{ playbook_dir + '/../../' + ark_out_dir }}/index.html"
 
 - name: Deploy Ark output to remote
   copy:

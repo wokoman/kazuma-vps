@@ -21,7 +21,9 @@
   copy:
     dest: /etc/apt/sources.list.d/caddy-stable.list
     content: |
-      deb [signed-by=/usr/share/keyrings/caddy-stable-archive-keyring.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/ubuntu {{ ansible_facts.lsb.codename | default('noble') }} main
+      deb [signed-by=/usr/share/keyrings/caddy-stable-archive-keyring.gpg] \
+      https://dl.cloudsmith.io/public/caddy/stable/deb/ubuntu \
+      {{ ansible_facts.lsb.codename | default('noble') }} main
     mode: '0644'
 
 - name: Install Caddy

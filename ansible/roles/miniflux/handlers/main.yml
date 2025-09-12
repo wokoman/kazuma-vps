@@ -3,4 +3,3 @@
   systemd:
     name: miniflux
     state: restarted
-
