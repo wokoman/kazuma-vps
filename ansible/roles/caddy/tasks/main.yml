@@ -1,0 +1,46 @@
+---
+- name: Ensure directory for keyrings exists
+  file:
+    path: /usr/share/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Download Caddy GPG key
+  get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    dest: /tmp/caddy.gpg.key
+    mode: '0644'
+
+- name: De-armor Caddy GPG key
+  command: >-
+    gpg --dearmor --yes --output /usr/share/keyrings/caddy-stable-archive-keyring.gpg /tmp/caddy.gpg.key
+  args:
+    creates: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+
+- name: Add Caddy apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/caddy-stable.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/caddy-stable-archive-keyring.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/ubuntu {{ ansible_facts.lsb.codename | default('noble') }} main
+    mode: '0644'
+
+- name: Install Caddy
+  apt:
+    name: caddy
+    state: present
+    update_cache: true
+
+- name: Deploy Caddyfile
+  template:
+    src: Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Caddy
+
+- name: Ensure Caddy is enabled and running
+  systemd:
+    name: caddy
+    state: started
+    enabled: true

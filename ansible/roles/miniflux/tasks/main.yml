@@ -1,0 +1,3 @@
+---
+- name: Include native Miniflux setup
+  include_tasks: native.yml
