@@ -1,5 +1,8 @@
 .vscode
 .DS_Store
 static-sites/ark/out
-hosts.ini
-group_vars/
+
+# Ignore any unencrypted versions of sensitive files
+*.unencrypted
+*.dec.yml
+*.dec.yaml

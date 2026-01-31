@@ -14,11 +14,6 @@
     state: present
     update_cache: true
 
-- name: Allow OpenSSH through UFW
-  ufw:
-    rule: allow
-    name: OpenSSH
-
 - name: Allow HTTP through UFW
   ufw:
     rule: allow

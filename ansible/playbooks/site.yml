@@ -9,6 +9,8 @@
       tags: ["bootstrap"]
     - role: common
       tags: ["base"]
+    - role: security_hardening
+      tags: ["security", "base"]
     - role: ark_build
       tags: ["website"]
       when: ark_enabled | bool
