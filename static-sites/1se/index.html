@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>1SE - One Second Every Day</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 20px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        nav {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        nav a {
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        nav a.active {
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+        a {
+            color: #0000EE;
+            text-decoration: underline;
+        }
+        a:hover {
+            color: #FF0000;
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+        video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000000;
+        }
+        .music {
+            font-size: 13px;
+            color: #666666;
+            font-style: italic;
+            margin-top: 12px;
+        }
+        .music .song {
+            font-style: normal;
+        }
+        .music .note {
+            font-style: normal;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #cccccc;
+            margin: 40px 0 20px 0;
+        }
+        .footer {
+            font-size: 12px;
+            color: #999999;
+        }
+
+        /* Tablet and up */
+        @media (min-width: 768px) {
+            body {
+                margin: 40px;
+            }
+        }
+
+        /* Large screens: constrain video to reasonable size */
+        @media (min-width: 1400px) {
+            video {
+                width: 60%;
+                max-width: 1200px;
+            }
+            hr {
+                width: 60%;
+                max-width: 1200px;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>1SE - One Second Every Day</h1>
+    
+    <nav id="nav"></nav>
+    
+    <h2 id="year-title"></h2>
+    <video id="player" controls preload="metadata"></video>
+    <p class="music" id="music-info"></p>
+    
+    <hr>
+    
+    <p class="footer">
+        <a href="https://michalkozak.cz">michalkozak.cz</a>
+    </p>
+    
+    <script>
+        const videos = [
+            { year: 2025, file: '1SE 2025.mp4' },
+            { year: 2024, file: '1SE 2024.mp4' },
+            { year: 2023, file: '1SE 2023.mp4' },
+            { year: 2022, file: '1SE 2022.mp4' },
+            { year: 2021, file: '1SE 2021.mp4' },
+            { year: 2020, file: '1SE 2020.mp4' },
+            { year: 2019, file: '1SE 2019.mp4' },
+            { year: 2018, file: '1SE 2018.mp4' },
+            { year: 2017, file: '1SE 2017.mp4' },
+            { year: 2016, file: '1SE 2016.mp4' },
+            { year: 2015, file: '1SE 2015.mp4' },
+            { year: 2014, file: '1SE 2014.mp4' },
+            { year: 2013, file: '1SE 2013.mp4' }
+        ];
+        
+        const music = {
+            mogwai: { song: 'Mogwai Fear Satan', artist: 'Mogwai' },
+            mono: { song: 'Death in Rebirth', artist: 'MONO' },
+            gybe: { song: 'Raindrops Cast in Lead', artist: 'Godspeed You! Black Emperor' }
+        };
+        
+        function getMusic(year) {
+            if (year >= 2024) return music.gybe;
+            if (year >= 2016) return music.mono;
+            return music.mogwai;
+        }
+        
+        const nav = document.getElementById('nav');
+        const player = document.getElementById('player');
+        const yearTitle = document.getElementById('year-title');
+        const musicInfo = document.getElementById('music-info');
+        
+        // Build navigation
+        videos.forEach(v => {
+            const link = document.createElement('a');
+            link.textContent = v.year;
+            link.dataset.year = v.year;
+            link.addEventListener('click', () => loadVideo(v.year));
+            nav.appendChild(link);
+        });
+        
+        function loadVideo(year) {
+            const video = videos.find(v => v.year === year);
+            if (!video) return;
+            
+            player.src = 'videos/' + video.file;
+            yearTitle.textContent = year;
+            document.title = '1SE ' + year;
+            
+            // Update music info
+            const m = getMusic(year);
+            musicInfo.innerHTML = '<span class="note">&#9834;</span> <span class="song">' + m.song + '</span> by ' + m.artist;
+            
+            // Update active state
+            nav.querySelectorAll('a').forEach(a => {
+                a.classList.toggle('active', parseInt(a.dataset.year) === year);
+            });
+            
+            // Update URL without reload
+            history.replaceState(null, '', '#' + year);
+        }
+        
+        // Load from URL hash or default to latest
+        function init() {
+            const hash = window.location.hash.slice(1);
+            const year = hash ? parseInt(hash) : videos[0].year;
+            loadVideo(year);
+        }
+        
+        // Handle browser back/forward
+        window.addEventListener('hashchange', () => {
+            const year = parseInt(window.location.hash.slice(1));
+            if (year) loadVideo(year);
+        });
+
+        init();
+    </script>
+</body>
+</html>

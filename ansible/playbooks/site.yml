@@ -17,6 +17,9 @@
     - role: website
       tags: ["website"]
       when: not (ark_enabled | bool)
+    - role: 1se_site
+      tags: ["1se", "website"]
+      when: ose_site_enabled | bool
     - role: miniflux
       tags: ["miniflux"]
       when: miniflux_enabled | bool
