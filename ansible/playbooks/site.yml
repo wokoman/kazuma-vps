@@ -1,0 +1,24 @@
+---
+- name: Configure VPS with Caddy, website, and Miniflux
+  hosts: web
+  become: true
+  vars:
+    apt_update_cache_valid_time: 3600
+  roles:
+    - role: provision_user
+      tags: ["bootstrap"]
+    - role: common
+      tags: ["base"]
+    - role: security_hardening
+      tags: ["security", "base"]
+    - role: ark_build
+      tags: ["website"]
+      when: ark_enabled | bool
+    - role: website
+      tags: ["website"]
+      when: not (ark_enabled | bool)
+    - role: miniflux
+      tags: ["miniflux"]
+      when: miniflux_enabled | bool
+    - role: caddy
+      tags: ["caddy"]

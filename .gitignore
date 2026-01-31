@@ -1,3 +1,8 @@
 .vscode
 .DS_Store
 static-sites/ark/out
+
+# Ignore any unencrypted versions of sensitive files
+*.unencrypted
+*.dec.yml
+*.dec.yaml

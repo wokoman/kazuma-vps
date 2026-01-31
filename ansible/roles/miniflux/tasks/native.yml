@@ -1,0 +1,79 @@
+---
+- name: Install Postgres packages
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+    state: present
+    update_cache: true
+
+- name: Ensure Postgres is running
+  systemd:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Install python3-psycopg2 for PostgreSQL modules
+  apt:
+    name: python3-psycopg2
+    state: present
+
+- name: Create Miniflux database user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ miniflux_db_user }}"
+    password: "{{ miniflux_db_password }}"
+    state: present
+
+- name: Create Miniflux database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ miniflux_db_name }}"
+    owner: "{{ miniflux_db_user }}"
+    state: present
+
+- name: Install Miniflux from apt
+  apt:
+    name: miniflux
+    state: present
+    update_cache: true
+
+- name: Ensure Miniflux config directory exists
+  file:
+    path: /etc/miniflux
+    state: directory
+    mode: '0755'
+
+- name: Write Miniflux configuration file
+  copy:
+    dest: /etc/miniflux/miniflux.conf
+    owner: root
+    group: root
+    mode: '0640'
+    content: |
+      DATABASE_URL=postgres://{{ miniflux_db_user }}:{{ miniflux_db_password }}@127.0.0.1/{{ miniflux_db_name }}?sslmode=disable
+      RUN_MIGRATIONS=1
+      CREATE_ADMIN=1
+      ADMIN_USERNAME={{ miniflux_admin_username }}
+      ADMIN_PASSWORD={{ miniflux_admin_password }}
+      LISTEN_ADDR=127.0.0.1:{{ miniflux_listen_port }}
+      BASE_URL=https://{{ miniflux_domain }}
+  notify: Restart Miniflux
+
+- name: Remove legacy systemd override
+  file:
+    path: /etc/systemd/system/miniflux.service.d/override.conf
+    state: absent
+  notify: Restart Miniflux
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true
+
+- name: Ensure Miniflux is enabled and running
+  systemd:
+    name: miniflux
+    state: started
+    enabled: true

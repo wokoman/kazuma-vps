@@ -1,0 +1,32 @@
+---
+- name: Ensure group '{{ provision_user_name }}' exists
+  group:
+    name: "{{ provision_user_name }}"
+    state: present
+
+- name: Create user '{{ provision_user_name }}'
+  user:
+    name: "{{ provision_user_name }}"
+    shell: /bin/bash
+    groups: sudo
+    append: true
+    create_home: true
+    state: present
+
+- name: Authorize SSH key for '{{ provision_user_name }}'
+  authorized_key:
+    user: "{{ provision_user_name }}"
+    key: "{{ provision_user_pubkey }}"
+    state: present
+  when:
+    - provision_user_pubkey | length > 0
+    - not ansible_check_mode
+
+- name: Configure passwordless sudo for '{{ provision_user_name }}'
+  copy:
+    dest: "/etc/sudoers.d/010-{{ provision_user_name }}-nopasswd"
+    content: "{{ provision_user_name }} ALL=(ALL) NOPASSWD:ALL\n"
+    owner: root
+    group: root
+    mode: '0440'
+  when: provision_user_sudo_nopasswd | bool

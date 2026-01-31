@@ -1,0 +1,35 @@
+---
+- name: Build Ark site on controller
+  delegate_to: localhost
+  run_once: true
+  become: false
+  vars:
+    ansible_become: false
+  when: not ansible_check_mode
+  block:
+    - name: Create Ark virtualenv on controller
+      pip:
+        name: pip
+        virtualenv: "{{ ark_venv | default(playbook_dir + '/../../.venv/ark') }}"
+        virtualenv_command: python3 -m venv
+
+    - name: Install Ark into virtualenv
+      pip:
+        name: ark==7.7.0
+        virtualenv: "{{ ark_venv | default(playbook_dir + '/../../.venv/ark') }}"
+
+    - name: Build site with Ark on controller
+      command: "{{ ark_venv | default(playbook_dir + '/../../.venv/ark') }}/bin/ark build"
+      args:
+        chdir: "{{ playbook_dir + '/../../' + ark_src_dir }}"
+        creates: "{{ playbook_dir + '/../../' + ark_out_dir }}/index.html"
+
+- name: Deploy Ark output to remote
+  copy:
+    src: "{{ playbook_dir + '/../../' + ark_out_dir }}/"
+    dest: "{{ website_dest }}/"
+    owner: root
+    group: root
+    mode: '0644'
+    directory_mode: '0755'
+  when: not ansible_check_mode

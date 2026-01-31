@@ -1,0 +1,99 @@
+---
+# Security Hardening Tasks
+# This role configures SSH hardening, fail2ban, and firewall rules
+
+- name: Configure custom SSH port
+  lineinfile:
+    path: /etc/ssh/sshd_config.d/10-custom-port.conf
+    line: "Port {{ ssh_port }}"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart ssh
+  when: ssh_port is defined
+
+- name: Disable root SSH login
+  lineinfile:
+    path: /etc/ssh/sshd_config.d/10-custom-port.conf
+    line: "PermitRootLogin no"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart ssh
+
+- name: Disable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config.d/10-custom-port.conf
+    line: "PasswordAuthentication no"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart ssh
+
+- name: Ensure PubkeyAuthentication is enabled
+  lineinfile:
+    path: /etc/ssh/sshd_config.d/10-custom-port.conf
+    line: "PubkeyAuthentication yes"
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart ssh
+
+- name: Allow custom SSH port through UFW
+  ufw:
+    rule: allow
+    port: "{{ ssh_port }}"
+    proto: tcp
+  when: ssh_port is defined
+
+- name: Remove legacy OpenSSH UFW rule (port 22)
+  ufw:
+    rule: allow
+    name: OpenSSH
+    delete: yes
+  ignore_errors: yes
+
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+    update_cache: yes
+
+- name: Create fail2ban jail.local configuration
+  copy:
+    dest: /etc/fail2ban/jail.local
+    content: |
+      [DEFAULT]
+      bantime = 1h
+      findtime = 10m
+      maxretry = 5
+      
+      [sshd]
+      enabled = true
+      port = {{ ssh_port | default(22) }}
+      logpath = %(sshd_log)s
+      backend = %(sshd_backend)s
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart fail2ban
+
+- name: Ensure fail2ban is enabled and started
+  systemd:
+    name: fail2ban
+    enabled: yes
+    state: started
+
+- name: Display security status
+  debug:
+    msg:
+      - "Security hardening applied:"
+      - "  - SSH port: {{ ssh_port | default(22) }}"
+      - "  - Root login: disabled"
+      - "  - Password auth: disabled"
+      - "  - Fail2ban: enabled"
+      - "  - UFW: active with ports {{ ssh_port | default(22) }}, 80, 443"

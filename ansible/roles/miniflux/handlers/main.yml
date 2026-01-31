@@ -1,0 +1,5 @@
+---
+- name: Restart Miniflux
+  systemd:
+    name: miniflux
+    state: restarted
