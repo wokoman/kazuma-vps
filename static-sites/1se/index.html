@@ -95,19 +95,19 @@
 </head>
 <body>
     <h1>1SE - One Second Every Day</h1>
-    
+
     <nav id="nav"></nav>
-    
+
     <h2 id="year-title"></h2>
     <video id="player" controls preload="metadata"></video>
     <p class="music" id="music-info"></p>
-    
+
     <hr>
-    
+
     <p class="footer">
         <a href="https://michalkozak.cz">michalkozak.cz</a>
     </p>
-    
+
     <script>
         const videos = [
             { year: 2025, file: '1SE 2025.mp4' },
@@ -124,24 +124,24 @@
             { year: 2014, file: '1SE 2014.mp4' },
             { year: 2013, file: '1SE 2013.mp4' }
         ];
-        
+
         const music = {
             mogwai: { song: 'Mogwai Fear Satan', artist: 'Mogwai' },
             mono: { song: 'Death in Rebirth', artist: 'MONO' },
-            gybe: { song: 'Raindrops Cast in Lead', artist: 'Godspeed You! Black Emperor' }
+            gybe: { song: 'RAINDROPS CAST IN LEAD', artist: 'Godspeed You! Black Emperor' }
         };
-        
+
         function getMusic(year) {
             if (year >= 2024) return music.gybe;
             if (year >= 2016) return music.mono;
             return music.mogwai;
         }
-        
+
         const nav = document.getElementById('nav');
         const player = document.getElementById('player');
         const yearTitle = document.getElementById('year-title');
         const musicInfo = document.getElementById('music-info');
-        
+
         // Build navigation
         videos.forEach(v => {
             const link = document.createElement('a');
@@ -150,35 +150,35 @@
             link.addEventListener('click', () => loadVideo(v.year));
             nav.appendChild(link);
         });
-        
+
         function loadVideo(year) {
             const video = videos.find(v => v.year === year);
             if (!video) return;
-            
+
             player.src = 'videos/' + video.file;
             yearTitle.textContent = year;
             document.title = '1SE ' + year;
-            
+
             // Update music info
             const m = getMusic(year);
             musicInfo.innerHTML = '<span class="note">&#9834;</span> <span class="song">' + m.song + '</span> by ' + m.artist;
-            
+
             // Update active state
             nav.querySelectorAll('a').forEach(a => {
                 a.classList.toggle('active', parseInt(a.dataset.year) === year);
             });
-            
+
             // Update URL without reload
             history.replaceState(null, '', '#' + year);
         }
-        
+
         // Load from URL hash or default to latest
         function init() {
             const hash = window.location.hash.slice(1);
             const year = hash ? parseInt(hash) : videos[0].year;
             loadVideo(year);
         }
-        
+
         // Handle browser back/forward
         window.addEventListener('hashchange', () => {
             const year = parseInt(window.location.hash.slice(1));
