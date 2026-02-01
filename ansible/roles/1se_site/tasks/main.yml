@@ -1,0 +1,24 @@
+---
+- name: Create 1SE site destination directory
+  file:
+    path: "{{ ose_site_dest }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create videos directory
+  file:
+    path: "{{ ose_site_dest }}/videos"
+    state: directory
+    owner: "{{ ose_site_upload_user }}"
+    group: "{{ ose_site_upload_user }}"
+    mode: '0755'
+
+- name: Deploy 1SE index.html
+  copy:
+    src: "{{ playbook_dir }}/../../static-sites/1se/index.html"
+    dest: "{{ ose_site_dest }}/index.html"
+    owner: root
+    group: root
+    mode: '0644'

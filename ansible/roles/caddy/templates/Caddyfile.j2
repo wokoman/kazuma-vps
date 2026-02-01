@@ -20,6 +20,41 @@ www.{{ site_domain }} {
 }
 {% endif %}
 
+{% if ose_site_enabled %}
+{{ ose_site_domain }}, video.{{ site_domain }} {
+    root * {{ ose_site_dest }}
+    encode zstd gzip
+    file_server
+    log {
+        output file /var/log/caddy/1se-access.log {
+            roll_size 100mb
+            roll_keep 5
+        }
+    }
+
+    # Prevent indexing by search engines
+    header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+
+    # Block common bots and crawlers
+    @bots {
+        header_regexp User-Agent (?i)(googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|sogou|exabot|facebookexternalhit|facebot|ia_archiver|alexa|msnbot|archive\.org_bot|semrushbot|ahrefsbot|mj12bot|dotbot|petalbot|bytespider|gptbot|claudebot|anthropic|ccbot)
+    }
+    respond @bots 403
+
+    # Handle robots.txt
+    handle /robots.txt {
+        respond "User-agent: *
+Disallow: /
+"
+    }
+
+    # Suppress favicon 404s
+    handle /favicon.ico {
+        respond 204
+    }
+}
+{% endif %}
+
 # Catch-all HTTP on port 80 → redirect to apex
 :80 {
     redir https://{{ site_domain }}{uri}
