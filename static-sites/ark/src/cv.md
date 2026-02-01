@@ -4,17 +4,15 @@ title: Curriculum vitæ
 
 - ***[Download my resume](@root/CV_en.pdf)***
 
-I moved my focus to all things DevOps starting in February 2020 by learning **Kubernetes** the hard way. I was tasked with deploying a backend to *Azure AKS*, so I've written all YAML from scratch (well, almost, thanks [Kompose](https://kompose.io/)) in a matter of two weeks.
+I have production experience with all three major clouds, running workloads almost exclusively on their **Kubernetes** distributions. These are packaged as **Helm** charts and deployed via **Argo CD** using *GitOps*.
 
-I know **Docker** and its tools (*docker-compose*, *Dockerfile*) well, including orchestration (**Kubernetes** on AWS and Azure, but also **Docker Swarm** and **MicroK8s**), and CI/CD provided by **GitLab CI/CD**, **Jenkins** or **TeamCity**. I've used **NGINX**, **Traefik** or **Ambassador** as ingress controllers.
+Most of my time is spent writing **Terraform** or **OpenTofu**.
 
-I prefer **Debian**-based environments, but I'm no stranger to **CentOS**. I've used **Proxmox** in the past, with **Ansible** doing all the heavy lifting. I've used **Terraform** on Azure, as well as developing and maintaing **Helm** charts. I'm utilizing **SOPS** for managing secrets.
+I know **GitHub Actions** best — its powers and limitations — but I've also spent a long time with **GitLab**.
 
-I'm using **[Git](https://github.com/wokoman)** for VCS and *GitOps*.
+I'm most comfortable in **Python** and currently working on my **Go**. I've dabbled with **Rust**, but it's still a bit over my head. Of course, I know **Bash**.
 
-I have basic knowledge of **Python**, **Bash**, **Groovy**, **Rust** and **Go** languages, **HTML/CSS**, and **PostgreSQL** and **MySQL** administration.
-
-This very website is built automatically thanks to **[GitHub Actions](https://github.com/features/actions)** using **[Ark](https://github.com/dmulholl/ark)**, serving it with **[Caddy](https://caddyserver.com/)**, and **[Traefik](https://containo.us/traefik/)** as reverse-proxy.
+I leverage LLMs as a tool that lets me focus on finding the best solution rather than hunting for syntax. I identify with this post on [Zed's Blog](https://zed.dev/blog/on-programming-with-agents).
 
 # Certifications
 
@@ -24,6 +22,14 @@ This very website is built automatically thanks to **[GitHub Actions](https://gi
 * **[AWS Certified Solutions Architect – Associate](https://www.credly.com/badges/6d4f99bb-7876-488a-8090-858686dd5373/public_url)**
 * **[Certified Kubernetes Administrator](https://www.credly.com/badges/a058d02d-41ee-458d-beeb-de95d06d5d83/public_url)**
 * **[GitLab Certified Associate](https://www.credly.com/badges/54645f5f-b714-4ed9-9061-d0b5b19304ef/public_url)**
+
+# Writing
+
+***
+
+* [From Push to Pull: Our Journey to GitOps with Argo CD](https://500.keboola.com/from-push-to-pull-our-journey-to-gitops-with-argo-cd/) — Keboola
+* [Silence Is Golden: Filtering GitHub Notifications the Hard Way](https://500.keboola.com/silence-is-golden-filtering-github-notifications-the-hard-way/) — Keboola
+* [Life of an ATA DevOps Engineer: Michal's Story](https://jobs.ataccama.com/blog/life-of-an-ata-devops-engineer-michal-s-story) — Ataccama
 
 # Career
 
@@ -47,14 +53,14 @@ Spearheading the transition to GitOps-based deployments using Argo CD, developin
 ## Career break
 *8/2023 - 10/2023*
 
-Taking some time off to refresh and spend with my family. Manage to get myself a AWS cert and help out on a small engineering project along the way.
+Taking some time off to refresh and spend with my family. Managed to get myself an AWS cert and help out on a small engineering project along the way.
 
 ## [Ataccama Software, s.r.o.](https://www.ataccama.com/)
 
 **Cloud Platform Engineer**
 *11/2020 - 7/2023*
 
-Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automatization scripts in **Python/Bash/Groovy**, **Docker** images optimalization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
+Developing and maintaining IDP stack in **Azure**, incl. self-hosted **GitLab**, **Artifactory** or **Harbor**. Go-to guy regarding CI/CD pipelines, build and release processes. **Helm** chart pipelines and development. Automation scripts in **Python/Bash/Groovy**, **Docker** image optimization, monitoring with **Grafana** and **Prometheus/VictoriaMetrics**, configuration as code using **Terraform/Terragrunt**, simple **Gradle** plugins.
 
 * GitLab, Jenkins
 * Python, Bash, Groovy
@@ -105,7 +111,7 @@ Being PR agency and relying heavily on emails, I was managing an Ubuntu VPS with
 
 ***
 
-## [Universal Music, s.r.o.](https://www.2media.cz/)
+## [Universal Music, s.r.o.](https://umusic.cz/)
 
 **IT Administrator, Digital Releases Manager**
 *4/2010 - 4/2019*

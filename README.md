@@ -89,8 +89,35 @@ Point these DNS records to your VPS IP:
 **Tip:** To update your CV PDF, replace `static-sites/ark/res/CV_en.pdf` and redeploy with `--tags website`.
 
 **Notes:**
-- Ark tasks run locally using a venv under `ansible/.venv/ark`.
+- Ark tasks run locally using a venv under `.venv/ark`.
 - In check mode (`--check`) the Ark build is skipped to avoid local-path issues.
+
+## Local Development with Ark
+
+The main website uses [Ark](https://www.dmulholl.com/docs/ark/master/) static site generator. To develop locally:
+
+**Setup (first time only):**
+```bash
+# Create virtual environment and install Ark
+python3 -m venv .venv/ark
+.venv/ark/bin/pip install ark==7.7.0
+```
+
+**Local development:**
+```bash
+cd static-sites/ark
+
+# Build the site
+../../.venv/ark/bin/ark build
+
+# Run local dev server (http://localhost:8080)
+../../.venv/ark/bin/ark serve
+
+# Or watch for changes and auto-rebuild
+../../.venv/ark/bin/ark watch
+```
+
+The site source is in `static-sites/ark/src/`, templates in `static-sites/ark/lib/graphite/templates/`.
 
 ## 1SE Video Site
 

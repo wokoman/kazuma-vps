@@ -4,8 +4,10 @@ meta_title: Michal Kozák × Personal website
 subtitle: Oh hi, Mark!
 ---
 
-I'm *DevOps guy* who tries to learn [everything at once all the time](@root/cv//).
+I'm a *DevOps guy* who tries to learn [everything at once, all the time](@root/cv//).
 
-I forked and *try to* maintain [Quake 3 Arena OSP server docker image](https://github.com/wokoman/docker-quake3-osp-server).
+Now I make my living with hyperscalers, Kubernetes, GitOps, pipelines, automation — you name it.
 
-My humble website is running on [Caddy](https://caddyserver.com/) webserver behind [Traefik](https://containo.us/traefik/) with full HSTS thing going on, and it's built with [Ark](https://github.com/dmulholl/ark) using [GitHub Actions](https://github.com/features/actions). It's all containerized and running using [MicroK8s](https://microk8s.io/) on Ubuntu VPS.
+I once forked a [Quake 3 server docker image](https://github.com/wokoman/docker-quake3-osp-server) and *tried to* maintain it (still works tho™).
+
+Based in Prague. Dad of two. Trying to play videogames.
