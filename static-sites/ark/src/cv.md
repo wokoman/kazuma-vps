@@ -38,7 +38,7 @@ I leverage LLMs as a tool that lets me focus on finding the best solution rather
 ## [Keboola :(){:|:&};: s.r.o.](https://www.keboola.com/)
 
 **Cloud Infrastructure Engineer**
-*11/2023 - present*
+*11/2023 - 03/2026*
 
 Spearheading the transition to GitOps-based deployments using Argo CD, developing Helm charts, owning GCP (governance, cost management, improvements, etc.), providing expertise in GitHub Actions pipelines (infrastructure automation, build workflows, monitoring, etc.), working across all three major cloud providers, maintaining Azure DevOps pipelines, and prototyping a Kubernetes operator with a custom runtime for AI agents.
 
