@@ -1,0 +1,7 @@
+---
+# systemd's own default is a share of the filesystem, which on a 20 GB disk
+# works out near 2 GB — most of the spare room on this box.
+journald_max_use: 200M
+journald_max_file_sec: 1month
+
+apt_periodic_autoclean_days: 7

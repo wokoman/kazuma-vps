@@ -1,0 +1,44 @@
+---
+- name: Ensure journald drop-in directory exists
+  file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Cap journal size
+  copy:
+    dest: /etc/systemd/journald.conf.d/00-size.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # Managed by Ansible (role: maintenance)
+      [Journal]
+      SystemMaxUse={{ journald_max_use }}
+      MaxFileSec={{ journald_max_file_sec }}
+  notify: Restart journald
+
+- name: Keep apt tidy between runs
+  copy:
+    dest: /etc/apt/apt.conf.d/99-maintenance
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      // Managed by Ansible (role: maintenance)
+      APT::Periodic::AutocleanInterval "{{ apt_periodic_autoclean_days }}";
+      Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+      Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
+
+- name: Report disk usage
+  command: df -h --output=pcent,avail /
+  register: maintenance_disk
+  changed_when: false
+  # Read-only, so --check should still show the real figure.
+  check_mode: false
+
+- name: Show disk usage
+  debug:
+    msg: "root filesystem: {{ maintenance_disk.stdout_lines[1] | trim }} available"
