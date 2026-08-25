@@ -11,6 +11,8 @@
       tags: ["base"]
     - role: security_hardening
       tags: ["security", "base"]
+    - role: maintenance
+      tags: ["maintenance", "base"]
     - role: ark_build
       tags: ["website"]
       when: ark_enabled | bool
