@@ -2,10 +2,19 @@
     email {{ caddy_email }}
 }
 
+# Every vhost is published to Certificate Transparency logs within minutes of
+# its certificate being issued, so scanners arrive uninvited and constantly.
+# They are harmless; they just drown the logs.
+(no_scanner_logs) {
+    @scanners path_regexp (?i)^/(\.env|\.git|\.aws|\.ssh|wp-|wordpress|xmlrpc\.php|phpmyadmin|vendor/|cgi-bin/|actuator|owa/|autodiscover)
+    log_skip @scanners
+}
+
 {{ site_domain }} {
     root * {{ website_dest }}
     encode zstd gzip
     file_server
+    import no_scanner_logs
     log
 }
 
@@ -16,6 +25,7 @@ www.{{ site_domain }} {
 {% if miniflux_enabled %}
 {{ miniflux_domain }} {
     reverse_proxy 127.0.0.1:{{ miniflux_listen_port }}
+    import no_scanner_logs
     log
 }
 {% endif %}
@@ -24,6 +34,7 @@ www.{{ site_domain }} {
 {{ forgejo_domain }} {
     reverse_proxy 127.0.0.1:{{ forgejo_http_port }}
     header X-Robots-Tag "noindex, nofollow"
+    import no_scanner_logs
     log
 }
 {% endif %}
@@ -33,6 +44,41 @@ www.{{ site_domain }} {
     root * {{ ose_site_dest }}
     encode zstd gzip
     file_server
+
+    # The videos live on the NAS; this box keeps only the player page.
+    # handle_path strips /videos, so the NAS serves them from its own root.
+    handle_path /videos/* {
+        # Filenames carry the year, so a given URL never changes content.
+        header Cache-Control "public, max-age=31536000, immutable"
+        reverse_proxy {{ ose_site_video_origin }} {
+            header_down -Server
+            # Upstream error bodies pass straight through by default, which
+            # would hand visitors Synology's error page. Re-raise as our own.
+            # Spelled out per status: `error {rp.status_code}` is read as a
+            # message, not a code, and silently becomes a 500.
+            @upstream_missing status 404
+            handle_response @upstream_missing {
+                error 404
+            }
+            @upstream_broken status 5xx
+            handle_response @upstream_broken {
+                error 502
+            }
+        }
+    }
+
+    # An unreachable NAS should read as a sentence, not as 502. Only 5xx:
+    # a request for a year that does not exist deserves an honest 404.
+    handle_errors 5xx {
+        rewrite * /unavailable.html
+        file_server
+    }
+
+    # Only requests that reach a video say anything about real viewers.
+    # log_skip is ordered before handle_path, so this sees the full path.
+    @notvideo not path /videos/*
+    log_skip @notvideo
+
     log {
         output file /var/log/caddy/1se-access.log {
             roll_size 10mb

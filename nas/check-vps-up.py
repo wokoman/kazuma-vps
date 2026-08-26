@@ -26,6 +26,10 @@ SITES = (
     "git.michalkozak.cz",
 )
 
+# The videos are proxied from this NAS, so a range request is the only check
+# that exercises Web Station, the tailnet grant and Caddy's proxy at once.
+VIDEO_PROBE = "https://video.michalkozak.cz/videos/1SE%202025.mp4"
+
 CERT_WARN_DAYS = 14
 TIMEOUT = 10
 # A single blip on the home connection should not raise an alarm.
@@ -33,24 +37,34 @@ ATTEMPTS = 3
 RETRY_WAIT = 5
 
 
-def http_failure(host: str) -> str | None:
-    """Return why the site did not answer 200, or None if it did."""
+def request_failure(
+    url: str, headers: dict | None = None, expect: int = 200
+) -> str | None:
+    """Return why the URL did not answer the expected status, or None if it did."""
+    request = urllib.request.Request(url, headers=headers or {})
     failure = None
     for attempt in range(ATTEMPTS):
         if attempt:
             time.sleep(RETRY_WAIT)
         try:
-            with urllib.request.urlopen(
-                f"https://{host}/", timeout=TIMEOUT
-            ) as response:
-                if response.getcode() == 200:
+            with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+                if response.getcode() == expect:
                     return None
-                failure = f"HTTP {response.getcode()}"
+                failure = f"HTTP {response.getcode()}, expected {expect}"
         except urllib.error.HTTPError as exc:
             failure = f"HTTP {exc.code}"
         except OSError as exc:
             failure = str(exc)
     return failure
+
+
+def video_problem() -> str | None:
+    """Return what is wrong with the proxied video, or None; print if healthy."""
+    failure = request_failure(VIDEO_PROBE, {"Range": "bytes=0-1023"}, expect=206)
+    if failure:
+        return f"video not served from the NAS: {failure}"
+    print("videos ok, NAS serving range requests")
+    return None
 
 
 def cert_days_left(host: str) -> int:
@@ -68,7 +82,7 @@ def cert_days_left(host: str) -> int:
 
 def problem(host: str) -> str | None:
     """Return what is wrong with the host, or None; print a line either way."""
-    failure = http_failure(host)
+    failure = request_failure(f"https://{host}/")
     if failure:
         return f"{host} unreachable: {failure}"
     try:
@@ -83,6 +97,8 @@ def problem(host: str) -> str | None:
 
 def main() -> None:
     problems = [found for host in SITES if (found := problem(host))]
+    if found := video_problem():
+        problems.append(found)
     if problems:
         sys.exit("\n".join(problems))
 

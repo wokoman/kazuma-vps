@@ -127,8 +127,14 @@ The 1SE (One Second Every Day) video site hosts annual video compilations.
 ### How It Works
 
 - Simple HTML5 video player with JavaScript for year selection
-- Videos are stored on the VPS at `/var/www/1se/videos/`
-- Access logs at `/var/log/caddy/1se-access.log` for monitoring traffic spikes
+- The VPS holds only `index.html`. The videos live on the NAS at
+  `/volume1/web/1se`, served by Web Station on port 18080, and Caddy proxies
+  `/videos/*` to it over the tailnet. A tailnet grant lets `tag:server` reach
+  that one port on `dwight` and nothing else.
+- When the NAS is unreachable, Caddy answers with `unavailable.html` (Czech and
+  English) instead of a 502
+- Access logs at `/var/log/caddy/1se-access.log`, narrowed to `/videos/*` —
+  scanners that only hit the page are not recorded
 - Site is unlisted (`noindex, nofollow`) - only accessible via direct link
 
 ### Deploy 1SE Site Changes
@@ -157,11 +163,22 @@ When a new annual video is ready:
    ansible-playbook ansible/playbooks/site.yml --tags 1se --become
    ```
 
-3. **Upload the new video:**
+3. **Put the video on the NAS** — copy it into `/volume1/web/1se/`, named
+   exactly as the HTML references it. Also keep a copy under `homes`: Hyper
+   Backup's source set is `homes` plus `Music`, so a file that exists only in
+   `/volume1/web` has no offsite copy.
+
+   Export it with `-movflags +faststart`. Without it the browser must fetch
+   the whole file before the first frame appears, because the `moov` atom
+   ends up at the end. Every published file currently has it.
+
    ```bash
-   rsync -avz --progress -e "ssh -p {{ port }}" \
-     "/path/to/1SE 2026.mp4" \
-     {{ ose_site_upload_user }}@{{ host }}:/var/www/1se/videos/
+   ffmpeg -i input.mov -c copy -movflags +faststart "1SE 2026.mp4"
+   ```
+
+4. **Check it serves:**
+   ```bash
+   curl -sI 'https://video.michalkozak.cz/videos/1SE%202026.mp4' | head -3
    ```
 
 ### Monitoring Access
