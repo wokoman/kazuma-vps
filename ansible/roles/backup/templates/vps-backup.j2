@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Encrypted backup of the VPS's stateful data.
+
+Writes {{ backup_dir }}/vps-<UTC timestamp>.tar.age and keeps the last
+{{ backup_keep }} locally. The NAS pulls them over the tailnet and owns the
+real retention, so a stale newest file there means this script stopped
+working.
+
+Managed by Ansible (role: backup).
+"""
+
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+BACKUP_DIR = Path("{{ backup_dir }}")
+KEEP = {{ backup_keep }}
+MIN_FREE_MB = {{ backup_min_free_mb }}
+AGE_RECIPIENT = "{{ backup_age_recipient }}"
+DATABASES = [{% for db in backup_databases %}"{{ db }}", {% endfor %}]
+PATHS = [{% for p in backup_paths %}"{{ p }}", {% endfor %}]
+
+
+def log(msg):
+    print(msg, flush=True)
+
+
+def check_free_space():
+    free_mb = shutil.disk_usage(BACKUP_DIR).free // (1024 * 1024)
+    if free_mb < MIN_FREE_MB:
+        sys.exit(f"aborting: only {free_mb} MB free, need {MIN_FREE_MB} MB")
+    log(f"{free_mb} MB free")
+
+
+def dump_databases(dest):
+    dest.mkdir()
+    for db in DATABASES:
+        out = dest / f"{db}.dump"
+        # pg_dump writes to stdout so that root owns the output file; the
+        # postgres user cannot create files in this root-only directory.
+        with open(out, "wb") as fh:
+            subprocess.run(
+                ["sudo", "-u", "postgres", "pg_dump", "--format=custom", db],
+                stdout=fh,
+                check=True,
+            )
+        log(f"dumped {db} ({out.stat().st_size // 1024} KiB)")
+
+
+def archive(db_dir, target):
+    """tar the dumps plus the on-disk paths, encrypt straight to `target`."""
+    present = [p for p in PATHS if Path(p).exists()]
+    for missing in set(PATHS) - set(present):
+        log(f"skipping {missing}: not present")
+
+    tar = ["tar", "--create", "--gzip", "--file", "-",
+           "--directory", str(db_dir.parent), db_dir.name,
+           "--directory", "/", *(p.lstrip("/") for p in present)]
+
+    with open(target, "wb") as out:
+        tar_proc = subprocess.Popen(tar, stdout=subprocess.PIPE)
+        age = subprocess.Popen(
+            ["age", "--recipient", AGE_RECIPIENT], stdin=tar_proc.stdout, stdout=out
+        )
+        tar_proc.stdout.close()
+        if age.wait() != 0 or tar_proc.wait() != 0:
+            raise RuntimeError("tar | age failed")
+
+
+def prune():
+    existing = sorted(BACKUP_DIR.glob("vps-*.tar.age"))
+    for old in existing[:-KEEP]:
+        old.unlink()
+        log(f"pruned {old.name}")
+
+
+def main():
+    check_free_space()
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    final = BACKUP_DIR / f"vps-{stamp}.tar.age"
+    # Written under a temp name so the NAS never pulls a half-finished archive.
+    partial = final.with_suffix(".partial")
+
+    with tempfile.TemporaryDirectory(dir=BACKUP_DIR) as tmp:
+        try:
+            dump_databases(Path(tmp) / "databases")
+            archive(Path(tmp) / "databases", partial)
+        except BaseException:
+            partial.unlink(missing_ok=True)
+            raise
+
+    partial.rename(final)
+    final.chmod(0o640)
+    log(f"wrote {final.name} ({final.stat().st_size // 1024} KiB)")
+    prune()
+
+
+if __name__ == "__main__":
+    main()

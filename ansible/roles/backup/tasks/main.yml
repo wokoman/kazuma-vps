@@ -1,0 +1,84 @@
+---
+- name: Install backup dependencies
+  apt:
+    name:
+      - age
+    state: present
+    update_cache: true
+
+- name: Create the backup pull user
+  user:
+    name: "{{ backup_pull_user }}"
+    system: true
+    home: "/var/lib/{{ backup_pull_user }}"
+    create_home: true
+    shell: /bin/sh
+    password_lock: true
+
+- name: Authorize the NAS to pull backups
+  authorized_key:
+    user: "{{ backup_pull_user }}"
+    key: "{{ backup_pull_pubkey }}"
+    exclusive: true
+  when: backup_pull_pubkey is defined
+
+- name: Ensure backup directory exists
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    owner: root
+    group: "{{ backup_pull_user }}"
+    # setgid so new archives inherit the group and stay readable by the puller.
+    mode: '2750'
+
+- name: Deploy backup script
+  template:
+    src: vps-backup.j2
+    dest: /usr/local/bin/vps-backup
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Deploy backup service
+  copy:
+    dest: /etc/systemd/system/vps-backup.service
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: backup)
+      [Unit]
+      Description=Encrypted backup of VPS state
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/vps-backup
+  notify: Reload systemd
+
+- name: Deploy backup timer
+  copy:
+    dest: /etc/systemd/system/vps-backup.timer
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: backup)
+      [Unit]
+      Description=Nightly encrypted backup of VPS state
+
+      [Timer]
+      OnCalendar={{ backup_on_calendar }}
+      Persistent=true
+
+      [Install]
+      WantedBy=timers.target
+  notify: Reload systemd
+
+- name: Flush systemd handlers before enabling the timer
+  meta: flush_handlers
+
+- name: Ensure backup timer is enabled
+  systemd:
+    name: vps-backup.timer
+    state: started
+    enabled: true
