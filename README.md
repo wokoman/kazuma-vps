@@ -301,6 +301,9 @@ All security hardening is **fully automated** via the `security_hardening` Ansib
 - Dedicated `ansible` user - NOPASSWD sudo for automation only
 - UFW firewall active - Allows only custom SSH port, 80 (HTTP), 443 (HTTPS)
 - Fail2ban active - SSH brute-force protection (1h ban after 5 failures in 10min)
+- A second jail watches Forgejo's log and bans on its `Failed authentication attempt`
+  line. Only web logins produce that line: a failed API basic-auth logs a bare 401 the
+  filter does not match, so the jail protects the login form, not the API
 - Automatic HTTPS - Caddy with Let's Encrypt certificates
 
 **Check fail2ban status:**
@@ -375,6 +378,23 @@ ships that at 02:00.
 An archive contains `databases/<name>.dump` (Postgres custom format) and the
 configuration paths listed in `backup_paths`. Videos under `/var/www/1se` are
 deliberately excluded — the NAS holds the masters.
+
+### Tailnet and the direction of trust
+
+The NAS **pulls**; the VPS never holds a credential that can reach home. The one
+deliberate exception is the 1SE videos: a grant lets `tag:server` open TCP 18080 on
+`dwight` and nothing else, which is read access to files already published on that
+same VPS.
+
+The policy uses the `grants` syntax. `tag:server` is owned by `autogroup:admin`, and
+the default allow-all grant is narrowed from `*` to `autogroup:member` — tagged
+devices are not members, so the VPS gets no tailnet access by default while your own
+devices keep theirs.
+
+Tagged nodes never expire their node key. The auth key in SOPS *does* expire after 90
+days, which only bites when rebuilding the VPS from scratch: generate a fresh one
+then. `dwight` is untagged, so its key expiry must stay disabled by hand — an expired
+key would stop the backups silently.
 
 Archives are encrypted to the same age recipient as SOPS. **The private key in
 1Password is the only thing that can read them.** Without it the backups are noise.
@@ -453,17 +473,20 @@ party, which is a deliberate no.
 
 Deploying it (DSM is outside Ansible's reach):
 
+Host, port and user are the same ones the Hyper Backup task uses; substitute them
+below.
+
 ```bash
-ssh -p 50022 michalkozak@192.168.1.200 'mkdir -p /volume1/homes/michalkozak/scripts'
+ssh -p <nas-ssh-port> <nas-user>@<nas-host> 'mkdir -p /volume1/homes/<nas-user>/scripts'
 # -O forces the legacy SCP protocol; DSM has no SFTP subsystem for OpenSSH 9 to use.
-scp -O -P 50022 nas/check-vps-up.py michalkozak@192.168.1.200:/volume1/homes/michalkozak/scripts/
+scp -O -P <nas-ssh-port> nas/check-vps-up.py <nas-user>@<nas-host>:/volume1/homes/<nas-user>/scripts/
 ```
 
 Then in DSM, **Control Panel → Task Scheduler → Create → Scheduled Task → User-defined script**:
 
-- User: `michalkozak`
+- User: your DSM account, not `root` — it only needs outbound HTTPS
 - Schedule: daily, repeat every hour (DSM's shortest interval)
-- Command: `python3 /volume1/homes/michalkozak/scripts/check-vps-up.py`
+- Command: `python3 /volume1/homes/<nas-user>/scripts/check-vps-up.py`
 - Settings: enable **Send run details by email**, and tick **Send run details only when the script terminates abnormally**
 
 Verify by running the task by hand (it should stay silent and log three `ok`
@@ -474,8 +497,10 @@ actually arrives.
 
 Self-hosted git at `git.michalkozak.cz`. Single static binary from Codeberg pinned by
 version and SHA256 in `ansible/roles/forgejo/defaults/main.yml`, running as the `git`
-user behind Caddy. Registration is disabled, there is no mailer, and Actions and LFS are
-off — the box has ~3 GB spare disk (see `PLAN-forgejo.md`).
+user behind Caddy. Registration is disabled, there is no mailer, and Actions and LFS
+are off. They were disabled when the box had ~3 GB spare; moving the 1SE videos to
+the NAS freed that, so the constraint is lifted and enabling them is now a choice
+rather than an impossibility.
 
 `SECRET_KEY`, `INTERNAL_TOKEN` and `oauth2.JWT_SECRET` are generated once into
 `/etc/forgejo/` and referenced from `app.ini` by `*_URI`, so re-running the playbook
