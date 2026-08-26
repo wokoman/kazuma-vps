@@ -6,3 +6,4 @@ static-sites/ark/out
 *.unencrypted
 *.dec.yml
 *.dec.yaml
+__pycache__/

@@ -26,6 +26,7 @@ The VPS is managed directly with Ansible (no Kubernetes/ArgoCD).
   - `caddy` — Installs and configures Caddy + vhosts
 - `static-sites/ark/` — Ark project (source)
 - `static-sites/1se/` — 1SE video site (HTML only, videos uploaded separately)
+- `nas/` — scripts that run on the NAS, deployed by hand (DSM is outside Ansible)
 
 ## Prerequisites
 
@@ -412,6 +413,45 @@ than that is an untested backup.
    # then copy back the configuration paths and restart the services
    ```
 5. Log in to each service and confirm real data is present before deleting anything.
+
+## Uptime Monitoring
+
+`nas/check-vps-up.py` runs on the NAS every hour and asks the three public
+sites for a `200`, then checks how long each certificate has left. It exits
+non-zero on any failure, and DSM Task Scheduler mails that output — the same
+alert path the nightly backup pull already uses.
+
+The check runs from the NAS, over the public internet, because a box cannot
+usefully watch itself: this way it also covers DNS, Caddy and certificate
+renewal. Caddy renews at roughly 30 days remaining, so the 14-day warning only
+fires once renewal is genuinely stuck. Three retries five seconds apart keep a
+blip on the home connection from raising an alarm.
+
+Disk space has no check here on purpose — the backup script aborts below
+500 MB free, and that failure already mails you.
+
+Nothing watches the NAS itself. If it or the home connection dies, the checks
+stop silently rather than alerting; closing that gap needs an offsite third
+party, which is a deliberate no.
+
+Deploying it (DSM is outside Ansible's reach):
+
+```bash
+ssh -p 50022 michalkozak@192.168.1.200 'mkdir -p /volume1/homes/michalkozak/scripts'
+# -O forces the legacy SCP protocol; DSM has no SFTP subsystem for OpenSSH 9 to use.
+scp -O -P 50022 nas/check-vps-up.py michalkozak@192.168.1.200:/volume1/homes/michalkozak/scripts/
+```
+
+Then in DSM, **Control Panel → Task Scheduler → Create → Scheduled Task → User-defined script**:
+
+- User: `michalkozak`
+- Schedule: daily, repeat every hour (DSM's shortest interval)
+- Command: `python3 /volume1/homes/michalkozak/scripts/check-vps-up.py`
+- Settings: enable **Send run details by email**, and tick **Send run details only when the script terminates abnormally**
+
+Verify by running the task by hand (it should stay silent and log three `ok`
+lines), then temporarily add a bogus hostname to `SITES` and confirm an email
+actually arrives.
 
 ## Forgejo
 
