@@ -236,6 +236,15 @@ Known upgrade traps: 2.2.18 blocks feeds and integrations on private networks un
 
 ## Security & Secrets Management
 
+### Tailnet ACL
+
+The tailnet policy file is edited in the Tailscale admin console, not here: it
+names the SSH port, which SOPS keeps out of this public repo. It grants
+`autogroup:member` full reach over `autogroup:self` (personal devices only —
+the tagged VPS is excluded), SSH to `tag:server` so there is a way in when the
+public IP is banned, and `tag:server` nothing but `dwight:18080`. Its `tests`
+block asserts both directions on every save.
+
 ### SOPS Encryption
 
 Sensitive variables are encrypted with [SOPS](https://github.com/getsops/sops) using AGE encryption:
