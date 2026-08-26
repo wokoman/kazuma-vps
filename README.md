@@ -311,3 +311,67 @@ To migrate to a new clean VPS:
 3. Run the bootstrap command as root/initial user on new VPS
 4. Everything will be automatically configured identically
 5. Re-upload 1SE videos using the rsync command above
+
+## Backups & Recovery
+
+Every night at 01:00 the VPS writes `/var/backups/vps/vps-<UTC>.tar.age`, keeping the
+last two. At 01:30 the NAS (`dwight`) pulls them over the tailnet into
+`/volume1/homes/michalkozak/Zálohy/kazuma`, and the existing offsite Hyper Backup job
+ships that at 02:00.
+
+An archive contains `databases/<name>.dump` (Postgres custom format) and the
+configuration paths listed in `backup_paths`. Videos under `/var/www/1se` are
+deliberately excluded — the NAS holds the masters.
+
+Archives are encrypted to the same age recipient as SOPS. **The private key in
+1Password is the only thing that can read them.** Without it the backups are noise.
+
+### Restore drill
+
+Run this roughly monthly, and after changing anything in the `backup` role. It is
+non-destructive: nothing touches live data.
+
+```bash
+# 1. Newest archive from the NAS (adjust the path if you run it on the NAS itself)
+scp "dwight:/volume1/homes/michalkozak/Zálohy/kazuma/$(ssh dwight 'ls -1 "/volume1/homes/michalkozak/Zálohy/kazuma" | tail -1')" /tmp/
+
+# 2. Decrypt and unpack with nothing but the age key — this is the step that matters
+mkdir -p /tmp/drill
+age -d -i "$HOME/Library/Application Support/sops/age/keys.txt" /tmp/vps-*.tar.age \
+  | tar -xzf - -C /tmp/drill
+find /tmp/drill -type f
+
+# 3. Prove the dump actually restores, into a scratch database on the VPS
+ansible web -m copy -a "src=/tmp/drill/databases/miniflux.dump dest=/tmp/drill.dump" --become
+ansible web -m shell -a 'sudo -u postgres createdb drill_test \
+  && sudo -u postgres pg_restore -d drill_test /tmp/drill.dump \
+  && sudo -u postgres psql -Atd drill_test \
+       -c "select count(*) from information_schema.tables where table_schema='"'"'public'"'"'" \
+  && sudo -u postgres dropdb drill_test && rm /tmp/drill.dump' --become
+
+# 4. Clean up the plaintext copies
+rm -rf /tmp/drill /tmp/vps-*.tar.age
+```
+
+A non-zero table count in step 3 means the chain works end to end: the timer ran, the
+NAS pulled a current archive, your key decrypts it, and the dump loads. Anything less
+than that is an untested backup.
+
+### Rebuilding the VPS from scratch
+
+1. Provision Ubuntu 24.04 and repoint DNS. Do DNS first — Caddy needs it to issue
+   certificates, and TLS material is not backed up (it is re-issued, not restored).
+2. **Generate a fresh Tailscale auth key.** The one in SOPS is single-use and already
+   consumed, so it cannot enroll a second machine. Update `tailscale_auth_key`.
+3. Run the bootstrap flow above, which recreates users, databases, and services empty.
+4. Restore data from a single archive — never mix archives, since a database and the
+   repository or config data it references are only consistent within one:
+   ```bash
+   age -d -i "$HOME/Library/Application Support/sops/age/keys.txt" vps-<ts>.tar.age \
+     | tar -xzf - -C /tmp/restore
+   # per database: drop what the playbook created, then load the dump
+   sudo -u postgres dropdb <name> && sudo -u postgres createdb -O <owner> <name>
+   sudo -u postgres pg_restore -d <name> /tmp/restore/databases/<name>.dump
+   # then copy back the configuration paths and restart the services
+   ```
+5. Log in to each service and confirm real data is present before deleting anything.
