@@ -32,6 +32,19 @@
       Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
       Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
 
+# There is no firmware to update on a VM, so these only ever fail, and a noisy
+# `systemctl --failed` hides the failures that matter.
+- name: Mask fwupd
+  systemd:
+    name: "{{ item }}"
+    masked: true
+    state: stopped
+    enabled: false
+  loop:
+    - fwupd.service
+    - fwupd-refresh.service
+    - fwupd-refresh.timer
+
 - name: Report disk usage
   command: df -h --output=pcent,avail /
   register: maintenance_disk
