@@ -175,6 +175,41 @@ tail -f /var/log/caddy/1se-access.log
 cat /var/log/caddy/1se-access.log | jq -r '.request.uri' | sort | uniq -c | sort -rn | head -20
 ```
 
+## Miniflux
+
+Miniflux is installed from the upstream `.deb` on GitHub, not Ubuntu universe — the Ubuntu
+package is frozen at 2.0.51 for the life of 24.04. Upstream's APT repo publishes no
+`Release` file, so consuming it would mean `[trusted=yes]` and no signature checking at
+all; a release `.deb` verified against a pinned SHA-256 is the safer trade. Version and
+checksum live in `ansible/roles/miniflux/defaults/main.yml`, and the package is
+`apt-mark hold`-ed so `apt upgrade` can never move it.
+
+### Upgrading
+
+Miniflux runs its schema migrations on start (`RUN_MIGRATIONS=1`) and they are one-way.
+
+1. Read the [release notes](https://github.com/miniflux/v2/releases) for every version you're skipping.
+2. Back up and verify the backup restores:
+   ```bash
+   ansible web -m shell -a "sudo -u postgres pg_dump miniflux > /root/miniflux-$(date +%F).sql" --become
+   ansible web -m shell -a "sudo -u postgres psql -c 'create database miniflux_restoretest'" --become
+   ansible web -m shell -a "sudo -u postgres psql miniflux_restoretest < /root/miniflux-$(date +%F).sql" --become
+   ansible web -m shell -a "sudo -u postgres psql -c 'drop database miniflux_restoretest'" --become
+   ```
+3. Bump `miniflux_version` and `miniflux_checksum` (the release page has no `.deb`
+   checksum file, so hash it yourself: `shasum -a 256 miniflux_<ver>_amd64.deb`), then
+   deploy:
+   ```bash
+   ansible-playbook ansible/playbooks/site.yml --become --tags miniflux --check --diff
+   ansible-playbook ansible/playbooks/site.yml --become --tags miniflux
+   ```
+4. Verify: `curl -i http://127.0.0.1:8080/` on the host serves the sign-in page (since
+   2.3.x `/login` is POST-only and answers `405` to a `GET`), then log in.
+
+Known upgrade traps: 2.2.18 blocks feeds and integrations on private networks unless
+`FETCHER_ALLOW_PRIVATE_NETWORKS=1` / `INTEGRATION_ALLOW_PRIVATE_NETWORKS=1` are set, and
+2.2.17 removed `FILTER_ENTRY_MAX_AGE_DAYS` in favour of a `max-age:` filter rule.
+
 ## Security & Secrets Management
 
 ### SOPS Encryption
