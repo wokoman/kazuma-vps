@@ -75,8 +75,7 @@
       [sshd]
       enabled = true
       port = {{ ssh_port | default(22) }}
-      logpath = %(sshd_log)s
-      backend = %(sshd_backend)s
+      backend = systemd
     owner: root
     group: root
     mode: '0644'
