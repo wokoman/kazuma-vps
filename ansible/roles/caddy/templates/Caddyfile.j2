@@ -1,5 +1,10 @@
 {
     email {{ caddy_email }}
+
+    # The admin API loads arbitrary config, so anything that gets code
+    # execution as any local user owns TLS termination for every vhost.
+    # Costs graceful reloads: caddy reload drives that same API.
+    admin off
 }
 
 # Every vhost is published to Certificate Transparency logs within minutes of
@@ -12,6 +17,7 @@
     # `?` writes the field only when the app has not set one itself.
     header ?Strict-Transport-Security "max-age=31536000; includeSubDomains"
     header ?X-Content-Type-Options "nosniff"
+    header ?X-Frame-Options "DENY"
     header ?Referrer-Policy "strict-origin-when-cross-origin"
     header ?Permissions-Policy "camera=(), microphone=(), geolocation=()"
 }

@@ -20,7 +20,7 @@ AllowUsers {{ ssh_allowed_users }}
 
 {% if backup_enabled | bool %}
 # The NAS holds this key. Without forwarding it reaches sshd and nothing else;
-# with it, Postgres and Caddy's admin API are one tunnel away.
+# with it, Postgres and every loopback-only service are one tunnel away.
 Match User {{ backup_pull_user }}
     AllowTcpForwarding no
 {% endif %}
