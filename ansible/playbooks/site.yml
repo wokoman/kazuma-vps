@@ -13,6 +13,12 @@
       tags: ["security", "base"]
     - role: maintenance
       tags: ["maintenance", "base"]
+    - role: tailscale
+      tags: ["tailscale"]
+      when: tailscale_enabled | bool
+    - role: backup
+      tags: ["backup"]
+      when: backup_enabled | bool
     - role: ark_build
       tags: ["website"]
       when: ark_enabled | bool
@@ -25,5 +31,8 @@
     - role: miniflux
       tags: ["miniflux"]
       when: miniflux_enabled | bool
+    - role: forgejo
+      tags: ["forgejo"]
+      when: forgejo_enabled | bool
     - role: caddy
       tags: ["caddy"]

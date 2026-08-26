@@ -1,0 +1,14 @@
+---
+forgejo_enabled: false
+
+forgejo_version: "16.0.3"
+forgejo_checksum: "sha256:90afc533a9025a0d916543f8aca79e65c8df141cfe51f298197789e78d5af97d"
+
+forgejo_app_name: "Forgejo"
+forgejo_http_port: 3000
+
+# Forgejo's own SSH server, so sshd and its hardening stay untouched.
+forgejo_ssh_port: 2222
+
+forgejo_db_name: forgejo
+forgejo_db_user: forgejo

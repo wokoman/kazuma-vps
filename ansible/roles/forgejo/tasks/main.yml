@@ -1,0 +1,162 @@
+---
+- name: Install Forgejo dependencies
+  apt:
+    name:
+      - git
+      - python3-psycopg2
+    state: present
+    update_cache: true
+
+- name: Create the git user
+  user:
+    name: git
+    system: true
+    home: /home/git
+    create_home: true
+    shell: /bin/bash
+    password_lock: true
+
+- name: Create Forgejo directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: git
+    mode: "{{ item.mode }}"
+  loop:
+    - { path: /etc/forgejo, owner: root, mode: '0750' }
+    - { path: /var/lib/forgejo, owner: git, mode: '0750' }
+    - { path: /var/lib/forgejo/custom, owner: git, mode: '0750' }
+    - { path: /var/lib/forgejo/data, owner: git, mode: '0750' }
+    - { path: /var/lib/forgejo/log, owner: git, mode: '0750' }
+
+- name: Install the Forgejo binary
+  get_url:
+    url: "https://codeberg.org/forgejo/forgejo/releases/download/v{{ forgejo_version }}/forgejo-{{ forgejo_version }}-linux-amd64"
+    dest: /usr/local/bin/forgejo
+    checksum: "{{ forgejo_checksum }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify: Restart Forgejo
+
+- name: Create Forgejo database user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ forgejo_db_user }}"
+    password: "{{ forgejo_db_password }}"
+    state: present
+
+- name: Create Forgejo database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ forgejo_db_name }}"
+    owner: "{{ forgejo_db_user }}"
+    state: present
+
+# `creates` keeps these generated exactly once: a new SECRET_KEY would make
+# stored 2FA secrets undecryptable.
+- name: Generate Forgejo secrets
+  shell: "/usr/local/bin/forgejo generate secret {{ item.name }} > {{ item.path }}"
+  args:
+    creates: "{{ item.path }}"
+  loop:
+    - { name: SECRET_KEY, path: /etc/forgejo/secret_key }
+    - { name: INTERNAL_TOKEN, path: /etc/forgejo/internal_token }
+    - { name: JWT_SECRET, path: /etc/forgejo/jwt_secret }
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Restrict the generated secrets
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: git
+    mode: '0640'
+  loop:
+    - /etc/forgejo/secret_key
+    - /etc/forgejo/internal_token
+    - /etc/forgejo/jwt_secret
+
+- name: Deploy Forgejo configuration
+  template:
+    src: app.ini.j2
+    dest: /etc/forgejo/app.ini
+    owner: root
+    group: git
+    mode: '0640'
+  notify: Restart Forgejo
+
+- name: Deploy Forgejo service
+  copy:
+    dest: /etc/systemd/system/forgejo.service
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: forgejo)
+      [Unit]
+      Description=Forgejo
+      After=network-online.target postgresql.service
+      Wants=network-online.target
+
+      [Service]
+      Type=simple
+      User=git
+      Group=git
+      WorkingDirectory=/var/lib/forgejo
+      ExecStart=/usr/local/bin/forgejo web --config /etc/forgejo/app.ini
+      Restart=always
+      Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/var/lib/forgejo
+
+      [Install]
+      WantedBy=multi-user.target
+  notify: Restart Forgejo
+
+- name: Allow Forgejo SSH through UFW
+  ufw:
+    rule: allow
+    port: "{{ forgejo_ssh_port }}"
+    proto: tcp
+
+- name: Deploy fail2ban filter for Forgejo
+  copy:
+    dest: /etc/fail2ban/filter.d/forgejo.local
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: forgejo)
+      [Definition]
+      failregex = .*(Failed authentication attempt|invalid credentials|user does not exist).* from <HOST>
+      ignoreregex =
+  notify: Restart fail2ban
+
+# jail.d rather than jail.local, which the security_hardening role owns.
+- name: Deploy fail2ban jail for Forgejo
+  copy:
+    dest: /etc/fail2ban/jail.d/forgejo.local
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: forgejo)
+      [forgejo]
+      enabled = true
+      filter = forgejo
+      # Forgejo still names its log file gitea.log.
+      logpath = /var/lib/forgejo/log/gitea.log
+      # The default backend here is systemd, which ignores logpath.
+      backend = polling
+      port = http,https,{{ forgejo_ssh_port }}
+      maxretry = 5
+  notify: Restart fail2ban
+
+- name: Ensure Forgejo is enabled and running
+  systemd:
+    name: forgejo
+    state: started
+    enabled: true
+    daemon_reload: true

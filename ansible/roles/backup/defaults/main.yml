@@ -1,0 +1,28 @@
+---
+backup_enabled: false
+
+backup_dir: /var/backups/vps
+
+# The NAS authenticates as this user to pull archives. Deliberately separate
+# from the ansible account, which has passwordless sudo.
+backup_pull_user: vpsbackup
+backup_on_calendar: "01:00"
+
+# The NAS keeps the real history; these copies exist only as a handoff, and
+# this box has ~3 GB spare.
+backup_keep: 2
+backup_min_free_mb: 500
+
+# Same recipient as .sops.yaml, so the recovery key is one already stored off
+# this machine.
+backup_age_recipient: age1nl58z4scpayqter2xldkcc0cyz06vel75m2kz6nlpxuqw8jmqfaqxepwa6
+
+backup_databases: >-
+  {{ ([miniflux_db_name] if miniflux_enabled | bool else [])
+     + ([forgejo_db_name] if forgejo_enabled | bool else []) }}
+
+# /etc/forgejo holds SECRET_KEY; without it a restored database cannot decrypt
+# its own 2FA secrets.
+backup_paths: >-
+  {{ ['/etc/caddy']
+     + (['/etc/forgejo', '/var/lib/forgejo'] if forgejo_enabled | bool else []) }}

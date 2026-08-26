@@ -1,0 +1,5 @@
+---
+tailscale_enabled: false
+
+# Must match the tags on the auth key, or `tailscale up` is rejected.
+tailscale_tags: tag:server
