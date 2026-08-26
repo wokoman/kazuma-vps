@@ -29,14 +29,15 @@
     state: started
     enabled: true
 
-# The NAS initiates the backup pull, so tailnet peers must reach sshd; UFW's
-# default-deny drops them otherwise. Which peers may connect is decided by
-# tailnet ACLs, not by this rule.
-- name: Allow tailnet traffic through UFW
+# Tailscale's ts-input chain accepts everything arriving on tailscale0 ahead of
+# ufw's chains, so no ufw rule here decides anything. Tailnet reach is governed
+# by the tailnet ACL.
+- name: Remove the blanket tailnet UFW rule
   ufw:
     rule: allow
     direction: in
     interface: tailscale0
+    delete: true
 
 - name: Check whether the host has joined the tailnet
   command: tailscale status --json
