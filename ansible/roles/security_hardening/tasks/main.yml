@@ -52,10 +52,22 @@
     dest: /etc/fail2ban/jail.local
     content: |
       [DEFAULT]
+      # The tailnet is the only route that still works once the public IP is
+      # banned, and a failed backup pull must never lock the NAS out.
+      ignoreip = 127.0.0.1/8 ::1 100.64.0.0/10
+
       bantime = 1h
       findtime = 10m
       maxretry = 5
-      
+
+      # Repeat offenders double each time rather than getting a fresh hour.
+      # Capped, because a home IP that mistypes its way to a ban has to be able
+      # to wait it out.
+      bantime.increment = true
+      bantime.maxtime = 1w
+      # One scanner usually works through sshd and the web apps in turn.
+      bantime.overalljails = true
+
       [sshd]
       enabled = true
       port = {{ ssh_port | default(22) }}
@@ -63,6 +75,20 @@
     owner: root
     group: root
     mode: '0644'
+  notify: restart fail2ban
+
+# bantime.increment reads ban history from the database, so history that is
+# purged before bantime.maxtime silently resets the escalation.
+- name: Keep ban history longer than the longest ban
+  copy:
+    dest: /etc/fail2ban/fail2ban.d/10-dbpurgeage.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      # Managed by Ansible (role: security_hardening)
+      [Definition]
+      dbpurgeage = 2w
   notify: restart fail2ban
 
 - name: Ensure fail2ban is enabled and started
