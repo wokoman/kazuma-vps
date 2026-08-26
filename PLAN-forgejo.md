@@ -84,7 +84,9 @@ The age recovery key must live somewhere that is not the VPS.
    UI; a second playbook run leaves `app.ini` unchanged and the session live.
 7. **UFW + fail2ban.** Open 2222, jail on Forgejo's SSH log.
    *Verify:* clone over `ssh://git@git.michalkozak.cz:2222/...`;
-   `fail2ban-client status forgejo`.
+   `fail2ban-client status forgejo`. Done — the jail bans at maxretry on
+   Forgejo's `[W] Failed authentication attempt ... from <ip>` line. Only web
+   logins produce it; failed API basic-auth logs a bare 401 the filter misses.
 8. **Caddy vhost.** Reverse proxy to `127.0.0.1:3000`, `noindex` header.
    *Verify:* HTTPS with a valid cert, header present.
 9. **Admin account + TOTP**, seed and recovery codes in the password manager.
@@ -97,6 +99,10 @@ The age recovery key must live somewhere that is not the VPS.
     `git push --mirror` — it has issues #1-11 and a PR that a mirror drops.
     Repoint `origin`, then delete the source.
     *Verify:* issue and PR counts match before deleting anything.
+    Done, and widened: `dochazkotron-5000` off nolog too, `dotfiles` and
+    `docker-quake3-osp-server` off GitHub. quake3 keeps its GitHub copy as a
+    Forgejo push mirror. `kazuma-vps` deliberately stays on GitHub — hosting
+    the VPS's own rebuild instructions on that VPS is circular.
 12. **Restore drill, ~4 weeks out.** Pull from the NAS, restore to a scratch
     dir, confirm the DB and repo data are coherent. Until this passes the
     backup is a belief, not a backup.
