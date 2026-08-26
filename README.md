@@ -341,19 +341,21 @@ age -d -i "$HOME/Library/Application Support/sops/age/keys.txt" /tmp/vps-*.tar.a
   | tar -xzf - -C /tmp/drill
 find /tmp/drill -type f
 
-# 3. Prove the dump actually restores, into a scratch database on the VPS
-ansible web -m copy -a "src=/tmp/drill/databases/miniflux.dump dest=/tmp/drill.dump" --become
-ansible web -m shell -a 'sudo -u postgres createdb drill_test \
-  && sudo -u postgres pg_restore -d drill_test /tmp/drill.dump \
-  && sudo -u postgres psql -Atd drill_test \
-       -c "select count(*) from information_schema.tables where table_schema='"'"'public'"'"'" \
-  && sudo -u postgres dropdb drill_test && rm /tmp/drill.dump' --become
+# 3. Prove the dumps actually restore, into a scratch database on the VPS
+for db in forgejo miniflux; do
+  ansible web -m copy -a "src=/tmp/drill/databases/$db.dump dest=/tmp/drill.dump" --become
+  ansible web -m shell -a 'sudo -u postgres createdb drill_test \
+    && sudo -u postgres pg_restore -d drill_test /tmp/drill.dump \
+    && sudo -u postgres psql -Atd drill_test \
+         -c "select count(*) from information_schema.tables where table_schema='"'"'public'"'"'" \
+    && sudo -u postgres dropdb drill_test && rm /tmp/drill.dump' --become
+done
 
 # 4. Clean up the plaintext copies
 rm -rf /tmp/drill /tmp/vps-*.tar.age
 ```
 
-A non-zero table count in step 3 means the chain works end to end: the timer ran, the
+A non-zero table count for each database in step 3 means the chain works end to end: the timer ran, the
 NAS pulled a current archive, your key decrypts it, and the dump loads. Anything less
 than that is an untested backup.
 
