@@ -50,6 +50,7 @@
       ADMIN_PASSWORD={{ miniflux_admin_password }}
       LISTEN_ADDR=127.0.0.1:{{ miniflux_listen_port }}
       BASE_URL=https://{{ miniflux_domain }}
+      TRUSTED_REVERSE_PROXY_NETWORKS=127.0.0.1/32
   # --diff would otherwise print the admin password and the database URL.
   no_log: true
   notify: Restart Miniflux
