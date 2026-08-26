@@ -1,0 +1,11 @@
+---
+- name: Restart Forgejo
+  systemd:
+    name: forgejo
+    state: restarted
+    daemon_reload: true
+
+- name: Restart fail2ban
+  systemd:
+    name: fail2ban
+    state: restarted

@@ -31,5 +31,8 @@
     - role: miniflux
       tags: ["miniflux"]
       when: miniflux_enabled | bool
+    - role: forgejo
+      tags: ["forgejo"]
+      when: forgejo_enabled | bool
     - role: caddy
       tags: ["caddy"]

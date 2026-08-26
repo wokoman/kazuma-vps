@@ -375,3 +375,48 @@ than that is an untested backup.
    # then copy back the configuration paths and restart the services
    ```
 5. Log in to each service and confirm real data is present before deleting anything.
+
+## Forgejo
+
+Self-hosted git at `git.michalkozak.cz`. Single static binary from Codeberg pinned by
+version and SHA256 in `ansible/roles/forgejo/defaults/main.yml`, running as the `git`
+user behind Caddy. Registration is disabled, there is no mailer, and Actions and LFS are
+off — the box has ~3 GB spare disk (see `PLAN-forgejo.md`).
+
+`SECRET_KEY`, `INTERNAL_TOKEN` and `oauth2.JWT_SECRET` are generated once into
+`/etc/forgejo/` and referenced from `app.ini` by `*_URI`, so re-running the playbook
+never rotates them. Losing `secret_key` makes stored 2FA secrets undecryptable, which is
+why `/etc/forgejo` is in `backup_paths`.
+
+Clone URLs use Forgejo's own SSH server, leaving the host's hardened sshd untouched:
+
+```bash
+git clone ssh://git@git.michalkozak.cz:2222/<owner>/<repo>.git
+```
+
+### Creating the first account
+
+Registration is disabled, so the admin account is made on the host:
+
+```bash
+ansible web -m shell -a 'sudo -u git env GITEA_WORK_DIR=/var/lib/forgejo \
+  /usr/local/bin/forgejo admin user create --admin --username <name> \
+  --email <email> --random-password --config /etc/forgejo/app.ini' --become
+```
+
+Store the printed password in 1Password, then enable TOTP in the web UI and store the
+recovery codes too. With no mailer there is no password reset by email — use
+`forgejo admin user change-password` on the host instead.
+
+### Upgrading
+
+Migrations run on start and are one-way, so back up first and read the release notes.
+Subscribe Miniflux to the Forgejo release feed; that is the upgrade trigger.
+
+```bash
+# find the checksum for the version you want
+curl -sL https://codeberg.org/forgejo/forgejo/releases/download/v<X.Y.Z>/forgejo-<X.Y.Z>-linux-amd64.sha256
+
+# bump forgejo_version and forgejo_checksum, then
+ansible-playbook ansible/playbooks/site.yml --become --tags forgejo
+```

@@ -20,6 +20,14 @@ www.{{ site_domain }} {
 }
 {% endif %}
 
+{% if forgejo_enabled %}
+{{ forgejo_domain }} {
+    reverse_proxy 127.0.0.1:{{ forgejo_http_port }}
+    header X-Robots-Tag "noindex, nofollow"
+    log
+}
+{% endif %}
+
 {% if ose_site_enabled %}
 {{ ose_site_domain }}, video.{{ site_domain }} {
     root * {{ ose_site_dest }}

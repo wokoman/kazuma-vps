@@ -1,0 +1,61 @@
+; Managed by Ansible (role: forgejo). Secrets live in the *_URI files below,
+; so re-running the playbook never rotates them.
+APP_NAME = {{ forgejo_app_name }}
+RUN_USER = git
+RUN_MODE = prod
+WORK_PATH = /var/lib/forgejo
+
+[server]
+PROTOCOL = http
+DOMAIN = {{ forgejo_domain }}
+ROOT_URL = https://{{ forgejo_domain }}/
+HTTP_ADDR = 127.0.0.1
+HTTP_PORT = {{ forgejo_http_port }}
+START_SSH_SERVER = true
+SSH_LISTEN_HOST = 0.0.0.0
+SSH_LISTEN_PORT = {{ forgejo_ssh_port }}
+SSH_PORT = {{ forgejo_ssh_port }}
+SSH_DOMAIN = {{ forgejo_domain }}
+; 3 GB of spare disk on this box; see PLAN-forgejo.md.
+LFS_START_SERVER = false
+OFFLINE_MODE = true
+
+[database]
+DB_TYPE = postgres
+HOST = 127.0.0.1:5432
+NAME = {{ forgejo_db_name }}
+USER = {{ forgejo_db_user }}
+PASSWD = {{ forgejo_db_password }}
+SSL_MODE = disable
+
+[repository]
+ROOT = /var/lib/forgejo/repositories
+DEFAULT_BRANCH = main
+DEFAULT_PRIVATE = private
+
+[security]
+; Skips the web installer, which would otherwise rewrite this file.
+INSTALL_LOCK = true
+SECRET_KEY_URI = file:/etc/forgejo/secret_key
+INTERNAL_TOKEN_URI = file:/etc/forgejo/internal_token
+
+[oauth2]
+JWT_SECRET_URI = file:/etc/forgejo/jwt_secret
+
+[service]
+DISABLE_REGISTRATION = true
+REQUIRE_SIGNIN_VIEW = false
+ENABLE_NOTIFY_MAIL = false
+DEFAULT_KEEP_EMAIL_PRIVATE = true
+
+[mailer]
+; No SMTP: password resets go through `forgejo admin user change-password`.
+ENABLED = false
+
+[actions]
+ENABLED = false
+
+[log]
+MODE = file
+LEVEL = info
+ROOT_PATH = /var/lib/forgejo/log

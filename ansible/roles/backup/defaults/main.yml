@@ -17,8 +17,12 @@ backup_min_free_mb: 500
 # this machine.
 backup_age_recipient: age1nl58z4scpayqter2xldkcc0cyz06vel75m2kz6nlpxuqw8jmqfaqxepwa6
 
-backup_databases:
-  - "{{ miniflux_db_name }}"
+backup_databases: >-
+  {{ ([miniflux_db_name] if miniflux_enabled | bool else [])
+     + ([forgejo_db_name] if forgejo_enabled | bool else []) }}
 
-backup_paths:
-  - /etc/caddy
+# /etc/forgejo holds SECRET_KEY; without it a restored database cannot decrypt
+# its own 2FA secrets.
+backup_paths: >-
+  {{ ['/etc/caddy']
+     + (['/etc/forgejo', '/var/lib/forgejo'] if forgejo_enabled | bool else []) }}
