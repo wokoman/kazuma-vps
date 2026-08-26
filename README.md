@@ -35,6 +35,37 @@ The VPS is managed directly with Ansible (no Kubernetes/ArgoCD).
 - AGE encryption key at `~/Library/Application Support/sops/age/keys.txt` (macOS)
 - Ansible collection: `ansible-galaxy collection install community.sops`
 
+## Getting In
+
+Three routes, in the order to try them. The port lives in SOPS, so substitute
+`<ssh_port>`; `ssh_interactive_users` lists who sshd accepts.
+
+1. **Public IP, from anywhere** — the everyday path.
+
+   ```bash
+   ssh -p <ssh_port> michalkozak@michalkozak.cz
+   ```
+
+2. **Over the tailnet** — when the public IP is banned or DNS is broken.
+   MagicDNS resolves the short name, so this survives a VPS rebuild. Needs
+   Tailscale running on the client, and only one tailnet is active at a time:
+   switch away from work first.
+
+   ```bash
+   ssh -p <ssh_port> michalkozak@kazuma
+   ```
+
+   This path cannot be banned — fail2ban's `ignoreip` covers `100.64.0.0/10`.
+
+3. **Forpsi's recovery console** (*Zotavovací konzole*) in the admin panel — when sshd or UFW
+   itself is broken. Out-of-band, so it works when nothing else does.
+
+Once in, to lift a ban on your own address:
+
+```bash
+sudo fail2ban-client set sshd unbanip <ip>
+```
+
 ## Bootstrap from Clean Machine
 
 If you have a **fresh Ubuntu 24.04 VPS** with only root access:
@@ -401,10 +432,9 @@ deliberate exception is the 1SE videos: a grant lets `tag:server` open TCP 18080
 `dwight` and nothing else, which is read access to files already published on that
 same VPS.
 
-The policy uses the `grants` syntax. `tag:server` is owned by `autogroup:admin`, and
-the default allow-all grant is narrowed from `*` to `autogroup:member` — tagged
-devices are not members, so the VPS gets no tailnet access by default while your own
-devices keep theirs.
+The policy uses the `grants` syntax; see [Tailnet ACL](#tailnet-acl) for what it
+allows. `tag:server` is owned by `autogroup:admin`, and no grant gives a tagged
+device anything beyond `dwight:18080`.
 
 Tagged nodes never expire their node key. The auth key in SOPS *does* expire after 90
 days, which only bites when rebuilding the VPS from scratch: generate a fresh one
