@@ -111,6 +111,37 @@
       Restart=always
       Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/var/lib/forgejo
 
+      # Forgejo is the most complex thing on this box exposed to the internet,
+      # and it runs as a user with a shell. Confining it decides what an RCE
+      # reaches. /etc/forgejo stays read-only: it holds SECRET_KEY.
+      NoNewPrivileges=true
+      CapabilityBoundingSet=
+      ProtectSystem=strict
+      ReadWritePaths=/var/lib/forgejo
+      # The other home directories hold authorized_keys; git's own holds
+      # nothing but dotfiles, and git wants $HOME to exist.
+      ProtectHome=tmpfs
+      BindPaths=/home/git
+      PrivateTmp=true
+      PrivateDevices=true
+      ProtectProc=invisible
+      ProtectClock=true
+      ProtectHostname=true
+      ProtectKernelTunables=true
+      ProtectKernelModules=true
+      ProtectKernelLogs=true
+      ProtectControlGroups=true
+      RestrictNamespaces=true
+      RestrictRealtime=true
+      RestrictSUIDSGID=true
+      RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+      LockPersonality=true
+      MemoryDenyWriteExecute=true
+      SystemCallArchitectures=native
+      SystemCallFilter=@system-service
+      SystemCallFilter=~@privileged @resources
+      UMask=0027
+
       [Install]
       WantedBy=multi-user.target
   notify: Restart Forgejo
