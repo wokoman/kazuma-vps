@@ -55,3 +55,25 @@
 - name: Show disk usage
   debug:
     msg: "root filesystem: {{ maintenance_disk.stdout_lines[1] | trim }} available"
+
+# unattended-upgrades stages kernel updates but never applies them without a
+# reboot, and this box has no livepatch. Without this the vulnerable kernel
+# keeps running indefinitely.
+- name: Reboot automatically when an update requires it
+  copy:
+    dest: /etc/apt/apt.conf.d/52unattended-upgrades-local
+    mode: '0644'
+    content: |
+      Unattended-Upgrade::Automatic-Reboot "true";
+      Unattended-Upgrade::Automatic-Reboot-WithUsers "true";
+      Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+
+# The provider image runs /usr/bin/resizelvm at every boot. It is not
+# executable, and it targets /dev/mapper/vg-lv_root while this host's volume
+# group is "lv" with no free extents, so it fails cloud-init.service forever
+# while being incapable of doing anything useful.
+- name: Drop the provider's dead disk-grow bootcmd
+  replace:
+    path: /etc/cloud/cloud.cfg
+    regexp: '(?m)^bootcmd:\n- \[ /usr/bin/resizelvm \]$'
+    replace: '# bootcmd dropped by Ansible: resizelvm targets a volume group this host does not have.'

@@ -5,6 +5,17 @@
 # Every vhost is published to Certificate Transparency logs within minutes of
 # its certificate being issued, so scanners arrive uninvited and constantly.
 # They are harmless; they just drown the logs.
+(security_headers) {
+    # Each `?` is its own directive on purpose: grouped in one header block
+    # they collapse into a single handler, so an app that sets any one of
+    # these (Miniflux sets HSTS) suppresses all the others.
+    # `?` writes the field only when the app has not set one itself.
+    header ?Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    header ?X-Content-Type-Options "nosniff"
+    header ?Referrer-Policy "strict-origin-when-cross-origin"
+    header ?Permissions-Policy "camera=(), microphone=(), geolocation=()"
+}
+
 (no_scanner_logs) {
     @scanners path_regexp (?i)^/(\.env|\.git|\.aws|\.ssh|wp-|wordpress|xmlrpc\.php|phpmyadmin|vendor/|cgi-bin/|actuator|owa/|autodiscover)
     log_skip @scanners
@@ -14,6 +25,7 @@
     root * {{ website_dest }}
     encode zstd gzip
     file_server
+    import security_headers
     import no_scanner_logs
     log
 }
@@ -25,6 +37,7 @@ www.{{ site_domain }} {
 {% if miniflux_enabled %}
 {{ miniflux_domain }} {
     reverse_proxy 127.0.0.1:{{ miniflux_listen_port }}
+    import security_headers
     import no_scanner_logs
     log
 }
@@ -34,6 +47,7 @@ www.{{ site_domain }} {
 {{ forgejo_domain }} {
     reverse_proxy 127.0.0.1:{{ forgejo_http_port }}
     header X-Robots-Tag "noindex, nofollow"
+    import security_headers
     import no_scanner_logs
     log
 }
@@ -76,6 +90,8 @@ www.{{ site_domain }} {
 
     # Only requests that reach a video say anything about real viewers.
     # log_skip is ordered before handle_path, so this sees the full path.
+    import security_headers
+
     @notvideo not path /videos/*
     log_skip @notvideo
 
