@@ -1,6 +1,6 @@
 ---
-# root and the provider's ubuntu account both carry keys this repo never
-# installed, so an explicit allowlist is what actually keeps them out.
+# The provider's own accounts (root, ubuntu) exist outside this repo and are
+# re-seeded on a rebuild, so naming who may log in is what governs them.
 # ssh_interactive_users lives in SOPS: no role creates those accounts, and the
 # repo is public.
 ssh_allowed_users: >-

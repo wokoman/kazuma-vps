@@ -46,9 +46,9 @@
     content: |
       # Managed by Ansible (role: caddy)
       [Service]
-      # ProtectSystem stays at the packaged full: strict would hide
-      # /var/lib/caddy, and losing the cert store takes every site offline at
-      # the next renewal rather than visibly at restart.
+      # ProtectSystem stays at the packaged full: strict would make
+      # /var/lib/caddy read-only, and a cert store that cannot be written fails
+      # at the next renewal, not visibly at restart.
       NoNewPrivileges=true
       # The packaged unit grants these two ambiently but leaves the bounding
       # set wide, so a subprocess could still pick up anything else.
@@ -65,8 +65,7 @@
       RestrictNamespaces=true
       RestrictRealtime=true
       RestrictSUIDSGID=true
-      # AF_NETLINK because Go enumerates interfaces through it.
-      RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+      RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
       LockPersonality=true
       MemoryDenyWriteExecute=true
       RemoveIPC=true

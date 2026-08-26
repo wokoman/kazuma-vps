@@ -1,5 +1,5 @@
 ---
-# Not reloaded: ExecReload shells out to caddy reload, which posts to the admin
+# Not reloaded: ExecReload runs caddy reload, which posts to the admin
 # API that admin off has closed. A restart drops in-flight video streams.
 - name: Restart Caddy
   systemd:
