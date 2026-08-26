@@ -1,10 +1,12 @@
 ---
 # Handlers for security_hardening role
 
-- name: restart ssh
+# Reload, not restart: it runs sshd -t before signalling, and open sessions
+# survive a config change that turns out to be wrong.
+- name: reload ssh
   systemd:
     name: ssh
-    state: restarted
+    state: reloaded
 
 - name: restart fail2ban
   systemd:

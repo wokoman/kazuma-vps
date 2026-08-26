@@ -1,0 +1,26 @@
+# Managed by Ansible (role: security_hardening)
+
+# Vestigial: systemd owns the listener through an ssh.socket drop-in. Kept
+# because openssh's postinst regenerates that drop-in from this value.
+Port {{ ssh_port }}
+
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+
+# Ubuntu defaults to six tries and a two-minute grace, which is generous for a
+# host that only ever accepts keys.
+MaxAuthTries 4
+LoginGraceTime 20
+
+AllowAgentForwarding no
+X11Forwarding no
+
+AllowUsers {{ ssh_allowed_users }}
+
+{% if backup_enabled | bool %}
+# The NAS holds this key. Without forwarding it reaches sshd and nothing else;
+# with it, Postgres and Caddy's admin API are one tunnel away.
+Match User {{ backup_pull_user }}
+    AllowTcpForwarding no
+{% endif %}

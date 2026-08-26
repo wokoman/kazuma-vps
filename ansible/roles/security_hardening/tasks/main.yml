@@ -2,46 +2,23 @@
 # Security Hardening Tasks
 # This role configures SSH hardening, fail2ban, and firewall rules
 
-- name: Configure custom SSH port
-  lineinfile:
-    path: /etc/ssh/sshd_config.d/10-custom-port.conf
-    line: "Port {{ ssh_port }}"
-    create: yes
+- name: Deploy hardened SSH configuration
+  template:
+    src: sshd_hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/10-hardening.conf
     owner: root
     group: root
     mode: '0644'
-  notify: restart ssh
-  when: ssh_port is defined
+    # A rejected directive would otherwise only surface when sshd refuses to
+    # come back, by which point the box is unreachable.
+    validate: /usr/sbin/sshd -t -f %s
+  notify: reload ssh
 
-- name: Disable root SSH login
-  lineinfile:
+- name: Remove the superseded SSH drop-in
+  file:
     path: /etc/ssh/sshd_config.d/10-custom-port.conf
-    line: "PermitRootLogin no"
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart ssh
-
-- name: Disable password authentication
-  lineinfile:
-    path: /etc/ssh/sshd_config.d/10-custom-port.conf
-    line: "PasswordAuthentication no"
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart ssh
-
-- name: Ensure PubkeyAuthentication is enabled
-  lineinfile:
-    path: /etc/ssh/sshd_config.d/10-custom-port.conf
-    line: "PubkeyAuthentication yes"
-    create: yes
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart ssh
+    state: absent
+  notify: reload ssh
 
 - name: Allow custom SSH port through UFW
   ufw:

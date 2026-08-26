@@ -1,0 +1,8 @@
+---
+# root and the provider's ubuntu account both carry keys this repo never
+# installed, so an explicit allowlist is what actually keeps them out.
+# ssh_interactive_users lives in SOPS: no role creates those accounts, and the
+# repo is public.
+ssh_allowed_users: >-
+  {{ ([provision_user_name] + ssh_interactive_users.split()
+      + ([backup_pull_user] if backup_enabled | bool else [])) | join(' ') }}
