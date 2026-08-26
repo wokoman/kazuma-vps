@@ -36,7 +36,10 @@
     owner: root
     group: root
     mode: '0644'
-  notify: Restart Caddy
+    # A broken Caddyfile would otherwise only surface as a failed restart,
+    # by which point every site on the box is down.
+    validate: caddy validate --adapter caddyfile --config %s
+  notify: Reload Caddy
 
 - name: Ensure Caddy is enabled and running
   systemd:

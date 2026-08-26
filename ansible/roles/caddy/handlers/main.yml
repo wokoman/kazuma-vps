@@ -1,5 +1,7 @@
 ---
-- name: Restart Caddy
+# Caddy reloads its config gracefully. Restarting would cut off anyone
+# mid-download, and the videos are gigabyte-sized.
+- name: Reload Caddy
   systemd:
     name: caddy
-    state: restarted
+    state: reloaded
