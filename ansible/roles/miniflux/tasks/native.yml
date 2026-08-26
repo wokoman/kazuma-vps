@@ -34,12 +34,6 @@
     owner: "{{ miniflux_db_user }}"
     state: present
 
-- name: Add Miniflux apt repository
-  copy:
-    dest: /etc/apt/sources.list.d/miniflux.list
-    content: "deb [trusted=yes] https://repo.miniflux.app/apt/ * *\n"
-    mode: '0644'
-
 # Written before the package: the upstream unit declares it as EnvironmentFile,
 # and systemd refuses to start the service if it is missing at post-install.
 - name: Write Miniflux configuration file
@@ -56,14 +50,30 @@
       ADMIN_PASSWORD={{ miniflux_admin_password }}
       LISTEN_ADDR=127.0.0.1:{{ miniflux_listen_port }}
       BASE_URL=https://{{ miniflux_domain }}
+  # --diff would otherwise print the admin password and the database URL.
+  no_log: true
   notify: Restart Miniflux
+
+# The upstream apt repo ships no Release file, so apt can only consume it with
+# [trusted=yes]. A pinned .deb with a checksum verifies what lands instead.
+- name: Download the pinned Miniflux package
+  get_url:
+    url: >-
+      https://github.com/miniflux/v2/releases/download/{{ miniflux_version }}/miniflux_{{ miniflux_version }}_amd64.deb
+    dest: "/tmp/miniflux_{{ miniflux_version }}_amd64.deb"
+    checksum: "sha256:{{ miniflux_checksum }}"
+    mode: '0644'
 
 - name: Install Miniflux
   apt:
-    name: "miniflux={{ miniflux_version }}"
-    state: present
-    update_cache: true
+    deb: "/tmp/miniflux_{{ miniflux_version }}_amd64.deb"
     allow_change_held_packages: true
+
+# Ubuntu's package kept its config here; the upstream one reads /etc/miniflux.conf.
+- name: Remove the Ubuntu package's config directory
+  file:
+    path: /etc/miniflux
+    state: absent
 
 # Without this, a routine `apt upgrade` on the host would bump Miniflux and
 # migrate the database as a side effect.

@@ -1,3 +1,4 @@
 ---
 # Pinned and held: Miniflux runs its DB migrations on start, and they are one-way.
 miniflux_version: "2.3.3"
+miniflux_checksum: "14712f3852a7e6716676b9a827597febf098da9ae926b3ca82b594ad3d16e759"
