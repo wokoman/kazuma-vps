@@ -111,9 +111,8 @@
       Restart=always
       Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/var/lib/forgejo
 
-      # Forgejo is the most complex thing on this box exposed to the internet,
-      # and it runs as a user with a shell. Confining it decides what an RCE
-      # reaches. /etc/forgejo stays read-only: it holds SECRET_KEY.
+      # The git user has a real shell, so this decides what an RCE reaches.
+      # /etc/forgejo stays read-only: it holds SECRET_KEY.
       NoNewPrivileges=true
       CapabilityBoundingSet=
       ProtectSystem=strict

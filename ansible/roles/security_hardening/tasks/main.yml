@@ -60,9 +60,7 @@
       findtime = 10m
       maxretry = 5
 
-      # Repeat offenders double each time rather than getting a fresh hour.
-      # Capped, because a home IP that mistypes its way to a ban has to be able
-      # to wait it out.
+      # Each repeat ban doubles; the cap keeps a mistyped login waitable.
       bantime.increment = true
       bantime.maxtime = 1w
       # One scanner usually works through sshd and the web apps in turn.
