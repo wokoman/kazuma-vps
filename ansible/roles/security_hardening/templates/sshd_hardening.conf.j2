@@ -1,7 +1,7 @@
 # Managed by Ansible (role: security_hardening)
 
-# Vestigial: systemd owns the listener through an ssh.socket drop-in. Kept
-# because openssh's postinst regenerates that drop-in from this value.
+# sshd-socket-generator turns this into ssh.socket's ListenStream on
+# daemon-reload; sshd itself never binds the port.
 Port {{ ssh_port }}
 
 PermitRootLogin no

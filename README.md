@@ -40,13 +40,19 @@ The VPS is managed directly with Ansible (no Kubernetes/ArgoCD).
 If you have a **fresh Ubuntu 24.04 VPS** with only root access:
 
 1. **Initial setup** — Connect as root or your personal user to create the `ansible` user:
+   The inventory takes the SSH port from SOPS, but a clean machine still answers
+   on 22, so the first run has to override it:
+
    ```bash
    # Connect with your initial user (e.g., root or michalkozak)
-   ansible-playbook ansible/playbooks/site.yml -u root --become
-   
+   ansible-playbook ansible/playbooks/site.yml -u root --become -e vps_ansible_port=22
+
    # Or if you have a personal user already:
-   ansible-playbook ansible/playbooks/site.yml -u michalkozak --become
+   ansible-playbook ansible/playbooks/site.yml -u michalkozak --become -e vps_ansible_port=22
    ```
+
+   The run moves SSH to the custom port and drops root's `authorized_keys`, so
+   from here on the `ansible` user is the only way back in.
 
 2. **What this does automatically:**
    - Creates `ansible` user with your SSH key and NOPASSWD sudo

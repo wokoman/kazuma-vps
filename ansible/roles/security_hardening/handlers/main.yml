@@ -1,12 +1,13 @@
 ---
 # Handlers for security_hardening role
 
-# Reload, not restart: it runs sshd -t before signalling, and open sessions
-# survive a config change that turns out to be wrong.
-- name: reload ssh
+# The generator rebuilds ssh.socket's listener from sshd_config only on
+# daemon-reload, so without this a port change never reaches the listener.
+- name: restart ssh socket
   systemd:
-    name: ssh
-    state: reloaded
+    name: ssh.socket
+    state: restarted
+    daemon_reload: true
 
 - name: restart fail2ban
   systemd:

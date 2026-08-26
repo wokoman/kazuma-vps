@@ -12,13 +12,20 @@
     # A rejected directive would otherwise only surface when sshd refuses to
     # come back, by which point the box is unreachable.
     validate: /usr/sbin/sshd -t -f %s
-  notify: reload ssh
+  notify: restart ssh socket
 
 - name: Remove the superseded SSH drop-in
   file:
     path: /etc/ssh/sshd_config.d/10-custom-port.conf
     state: absent
-  notify: reload ssh
+  notify: restart ssh socket
+
+# The provider seeds root with the operator's own key. PermitRootLogin and
+# AllowUsers both refuse it, so it only widens the blast radius of a leak.
+- name: Drop the bootstrap key from root
+  file:
+    path: /root/.ssh/authorized_keys
+    state: absent
 
 - name: Allow custom SSH port through UFW
   ufw:
