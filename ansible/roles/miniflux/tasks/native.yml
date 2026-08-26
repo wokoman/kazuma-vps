@@ -34,21 +34,17 @@
     owner: "{{ miniflux_db_user }}"
     state: present
 
-- name: Install Miniflux from apt
-  apt:
-    name: miniflux
-    state: present
-    update_cache: true
+- name: Add Miniflux apt repository
+  copy:
+    dest: /etc/apt/sources.list.d/miniflux.list
+    content: "deb [trusted=yes] https://repo.miniflux.app/apt/ * *\n"
+    mode: '0644'
 
-- name: Ensure Miniflux config directory exists
-  file:
-    path: /etc/miniflux
-    state: directory
-    mode: '0755'
-
+# Written before the package: the upstream unit declares it as EnvironmentFile,
+# and systemd refuses to start the service if it is missing at post-install.
 - name: Write Miniflux configuration file
   copy:
-    dest: /etc/miniflux/miniflux.conf
+    dest: /etc/miniflux.conf
     owner: root
     group: root
     mode: '0640'
@@ -61,6 +57,20 @@
       LISTEN_ADDR=127.0.0.1:{{ miniflux_listen_port }}
       BASE_URL=https://{{ miniflux_domain }}
   notify: Restart Miniflux
+
+- name: Install Miniflux
+  apt:
+    name: "miniflux={{ miniflux_version }}"
+    state: present
+    update_cache: true
+    allow_change_held_packages: true
+
+# Without this, a routine `apt upgrade` on the host would bump Miniflux and
+# migrate the database as a side effect.
+- name: Hold Miniflux at the pinned version
+  dpkg_selections:
+    name: miniflux
+    selection: hold
 
 - name: Remove legacy systemd override
   file:

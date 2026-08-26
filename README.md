@@ -175,6 +175,32 @@ tail -f /var/log/caddy/1se-access.log
 cat /var/log/caddy/1se-access.log | jq -r '.request.uri' | sort | uniq -c | sort -rn | head -20
 ```
 
+## Miniflux
+
+Miniflux comes from the upstream APT repo (`repo.miniflux.app`), not Ubuntu universe — the
+Ubuntu package is frozen at 2.0.51 for the life of 24.04. The version is pinned in
+`ansible/roles/miniflux/defaults/main.yml` and `apt-mark hold`-ed, so upgrades only happen
+when you bump that var.
+
+### Upgrading
+
+Miniflux runs its schema migrations on start (`RUN_MIGRATIONS=1`) and they are one-way.
+
+1. Read the [release notes](https://github.com/miniflux/v2/releases) for every version you're skipping.
+2. Back up and verify the backup restores:
+   ```bash
+   ansible web -m shell -a "sudo -u postgres pg_dump miniflux > /root/miniflux-$(date +%F).sql" --become
+   ansible web -m shell -a "sudo -u postgres psql -c 'create database miniflux_restoretest'" --become
+   ansible web -m shell -a "sudo -u postgres psql miniflux_restoretest < /root/miniflux-$(date +%F).sql" --become
+   ansible web -m shell -a "sudo -u postgres psql -c 'drop database miniflux_restoretest'" --become
+   ```
+3. Bump `miniflux_version`, then deploy:
+   ```bash
+   ansible-playbook ansible/playbooks/site.yml --become --tags miniflux --check --diff
+   ansible-playbook ansible/playbooks/site.yml --become --tags miniflux
+   ```
+4. Verify: `curl -i http://127.0.0.1:8080/login` on the host, then log in.
+
 ## Security & Secrets Management
 
 ### SOPS Encryption
