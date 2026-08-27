@@ -19,8 +19,8 @@ X11Forwarding no
 AllowUsers {{ ssh_allowed_users }}
 
 {% if backup_enabled | bool %}
-# The NAS holds this key. Without forwarding it reaches sshd and nothing else;
-# with it, Postgres and every loopback-only service are one tunnel away.
+# Belt to the forced command on the key itself: a tunnel would otherwise put
+# every loopback-only service one hop from the NAS.
 Match User {{ backup_pull_user }}
     AllowTcpForwarding no
 {% endif %}
