@@ -421,6 +421,10 @@ last two. At 01:30 the NAS (`dwight`) pulls them over the tailnet into
 `/volume1/homes/michalkozak/Zálohy/kazuma`, and the existing offsite Hyper Backup job
 ships that at 02:00.
 
+The pull key carries a forced `rrsync -ro /var/backups/vps` command, so it can do
+nothing but this read-only copy. rrsync resolves paths relative to that directory,
+which is why the DSM task asks for `vpsbackup@<host>:/` rather than the full path.
+
 An archive contains `databases/<name>.dump` (Postgres custom format) and the
 configuration paths listed in `backup_paths`. Videos under `/var/www/1se` are
 deliberately excluded — the NAS holds the masters.
