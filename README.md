@@ -58,7 +58,9 @@ Three routes, in the order to try them. The port lives in SOPS, so substitute
    This path cannot be banned — fail2ban's `ignoreip` covers `100.64.0.0/10`.
 
 3. **Forpsi's recovery console** (*Zotavovací konzole*) in the admin panel — when sshd or UFW
-   itself is broken. Out-of-band, so it works when nothing else does.
+   itself is broken. Out-of-band, so it works when nothing else does. Log in as `root` or an
+   interactive user with a *password*: the key-only and no-root rules are sshd's, and a console
+   never consults them. `ansible` is password-locked and cannot be used here.
 
 Once in, to lift a ban on your own address:
 
