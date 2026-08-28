@@ -35,18 +35,57 @@ The VPS is managed directly with Ansible (no Kubernetes/ArgoCD).
 - AGE encryption key at `~/Library/Application Support/sops/age/keys.txt` (macOS)
 - Ansible collection: `ansible-galaxy collection install community.sops`
 
+## Getting In
+
+Three routes, in the order to try them. The port lives in SOPS, so substitute
+`<ssh_port>`; `ssh_interactive_users` lists who sshd accepts.
+
+1. **Public IP, from anywhere** — the everyday path.
+
+   ```bash
+   ssh -p <ssh_port> michalkozak@michalkozak.cz
+   ```
+
+2. **Over the tailnet** — when the public IP is banned or DNS is broken.
+   MagicDNS resolves the short name, so this survives a VPS rebuild. Needs
+   Tailscale running on the client, and only one tailnet is active at a time:
+   switch away from work first.
+
+   ```bash
+   ssh -p <ssh_port> michalkozak@kazuma
+   ```
+
+   This path cannot be banned — fail2ban's `ignoreip` covers `100.64.0.0/10`.
+
+3. **Forpsi's recovery console** (*Zotavovací konzole*) in the admin panel — when sshd or UFW
+   itself is broken. Out-of-band, so it works when nothing else does. Log in as `root` or an
+   interactive user with a *password*: the key-only and no-root rules are sshd's, and a console
+   never consults them. `ansible` is password-locked and cannot be used here.
+
+Once in, to lift a ban on your own address:
+
+```bash
+sudo fail2ban-client set sshd unbanip <ip>
+```
+
 ## Bootstrap from Clean Machine
 
 If you have a **fresh Ubuntu 24.04 VPS** with only root access:
 
 1. **Initial setup** — Connect as root or your personal user to create the `ansible` user:
+   The inventory takes the SSH port from SOPS, but a clean machine still answers
+   on 22, so the first run has to override it:
+
    ```bash
    # Connect with your initial user (e.g., root or michalkozak)
-   ansible-playbook ansible/playbooks/site.yml -u root --become
-   
+   ansible-playbook ansible/playbooks/site.yml -u root --become -e vps_ansible_port=22
+
    # Or if you have a personal user already:
-   ansible-playbook ansible/playbooks/site.yml -u michalkozak --become
+   ansible-playbook ansible/playbooks/site.yml -u michalkozak --become -e vps_ansible_port=22
    ```
+
+   The run moves SSH to the custom port and drops root's `authorized_keys`, so
+   from here on the `ansible` user is the only way back in.
 
 2. **What this does automatically:**
    - Creates `ansible` user with your SSH key and NOPASSWD sudo
@@ -230,6 +269,15 @@ Known upgrade traps: 2.2.18 blocks feeds and integrations on private networks un
 
 ## Security & Secrets Management
 
+### Tailnet ACL
+
+The tailnet policy file is edited in the Tailscale admin console, not here: it
+names the SSH port, which SOPS keeps out of this public repo. It grants
+`autogroup:member` full reach over `autogroup:self` (personal devices only —
+the tagged VPS is excluded), SSH to `tag:server` so there is a way in when the
+public IP is banned, and `tag:server` nothing but `dwight:18080`. Its `tests`
+block asserts both directions on every save.
+
 ### SOPS Encryption
 
 Sensitive variables are encrypted with [SOPS](https://github.com/getsops/sops) using AGE encryption:
@@ -375,6 +423,10 @@ last two. At 01:30 the NAS (`dwight`) pulls them over the tailnet into
 `/volume1/homes/michalkozak/Zálohy/kazuma`, and the existing offsite Hyper Backup job
 ships that at 02:00.
 
+The pull key carries a forced `rrsync -ro /var/backups/vps` command, so it can do
+nothing but this read-only copy. rrsync resolves paths relative to that directory,
+which is why the DSM task asks for `vpsbackup@<host>:/` rather than the full path.
+
 An archive contains `databases/<name>.dump` (Postgres custom format) and the
 configuration paths listed in `backup_paths`. Videos under `/var/www/1se` are
 deliberately excluded — the NAS holds the masters.
@@ -386,10 +438,9 @@ deliberate exception is the 1SE videos: a grant lets `tag:server` open TCP 18080
 `dwight` and nothing else, which is read access to files already published on that
 same VPS.
 
-The policy uses the `grants` syntax. `tag:server` is owned by `autogroup:admin`, and
-the default allow-all grant is narrowed from `*` to `autogroup:member` — tagged
-devices are not members, so the VPS gets no tailnet access by default while your own
-devices keep theirs.
+The policy uses the `grants` syntax; see [Tailnet ACL](#tailnet-acl) for what it
+allows. `tag:server` is owned by `autogroup:admin`, and no grant gives a tagged
+device anything beyond `dwight:18080`.
 
 Tagged nodes never expire their node key. The auth key in SOPS *does* expire after 90
 days, which only bites when rebuilding the VPS from scratch: generate a fresh one

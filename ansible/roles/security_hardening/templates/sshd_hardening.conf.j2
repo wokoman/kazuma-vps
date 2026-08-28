@@ -1,0 +1,26 @@
+# Managed by Ansible (role: security_hardening)
+
+# sshd-socket-generator turns this into ssh.socket's ListenStream on
+# daemon-reload; sshd itself never binds the port.
+Port {{ ssh_port }}
+
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+
+# Ubuntu defaults to six tries and a two-minute grace, which is generous for a
+# host that only ever accepts keys.
+MaxAuthTries 4
+LoginGraceTime 20
+
+AllowAgentForwarding no
+X11Forwarding no
+
+AllowUsers {{ ssh_allowed_users }}
+
+{% if backup_enabled | bool %}
+# Belt to the forced command on the key itself: a tunnel would otherwise put
+# every loopback-only service one hop from the NAS.
+Match User {{ backup_pull_user }}
+    AllowTcpForwarding no
+{% endif %}

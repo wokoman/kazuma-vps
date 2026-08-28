@@ -1,7 +1,8 @@
 ---
-# Caddy reloads its config gracefully. Restarting would cut off anyone
-# mid-download, and the videos are gigabyte-sized.
-- name: Reload Caddy
+# Not reloaded: ExecReload runs caddy reload, which posts to the admin
+# API that admin off has closed. A restart drops in-flight video streams.
+- name: Restart Caddy
   systemd:
     name: caddy
-    state: reloaded
+    state: restarted
+    daemon_reload: true

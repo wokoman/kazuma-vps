@@ -62,6 +62,7 @@ forgejo_enabled: ENC[AES256_GCM,data:dqiW0A==,iv:MAFfNNxeax5cXEyYCBwDxMYa22YtJ0Y
 forgejo_domain: ENC[AES256_GCM,data:4/si6udqn4UvUFO9J75/pDHd,iv:hTwuKAMnMeq+Cnb6p2WjEIe+MO8NoKIYCktv9TsJZ1M=,tag:ld9XNYlJjECxd8k27rvgjg==,type:str]
 forgejo_db_password: ENC[AES256_GCM,data:3GVtkwkjLI54+00DQ6v1nBENCducs+Xs2s3PDZuRVKubA9S++Y2Lb9qWvQ==,iv:pq29CkP7macxMwEqbPQz4o7wt4JI2dw0xpw9V8aaiPg=,tag:NPjpeIMYDAVfdyygwlJMZg==,type:str]
 ose_site_video_origin: ENC[AES256_GCM,data:IAjFxnZVkG/cTJIpHpX6dmfcMQ==,iv:DO5cCbBZPbVSkVcwlYNGkcthXoMYxI6DpKQw3RKzUIM=,tag:/GPd/TZ3vNOI1a7LhDtx6A==,type:str]
+ssh_interactive_users: ENC[AES256_GCM,data:qR7Fj5z82Q9KNTM=,iv:g2SHunEso8VosqJFDydrHNEs7ZoDJhEBu1EeqV/NiNQ=,tag:6E/jfRSBmDhgdb4vCVggIw==,type:str]
 sops:
     age:
         - enc: |
@@ -73,7 +74,7 @@ sops:
             LAmq4Vj8G0DYc1MsRWPI0dh3q36aVpH9UbVnFGNgg3u5odMMWGwInA==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1nl58z4scpayqter2xldkcc0cyz06vel75m2kz6nlpxuqw8jmqfaqxepwa6
-    lastmodified: "2026-08-26T18:00:18Z"
-    mac: ENC[AES256_GCM,data:ledOw7S19wX1Marmk87MtWrNgOALw6oAlkxE2T0MaNxsT4VyVQhOK0ozMHF8YQTsd2PTsQQz130mInRpekWsJnoZtijCAb+ppZgK52NhxvWi6OpS8LStZB2tUGE4YyUR2YIGJtEUn4c1Z5ObcyB0agy3mmn0YuR4u/Rxw4M8vQs=,iv:d3HQs04khZl910WifUJgqU0fjFyIpHDiewrGYjwF4DI=,tag:9UVlshrHHcfxdqPvfRs86g==,type:str]
+    lastmodified: "2026-08-26T20:41:50Z"
+    mac: ENC[AES256_GCM,data:8SPH4JcATPGMSvg4ngj/lT77FVJFGUEE4ZWzZVpt5tPYw2FP1ZnVmLEAeVgv68uIMtPEbAjYMdapv+PkQAlO9lTes8iYELPPBFr9TZ16jUEtMPHk4jGBMxdQlLGvFqfwXnflULJh2ULaBOHZxKIymjuuGBpP/XibrenSiwJLMUI=,iv:8QOUh0aFXa7YKY3wC1e6KJNOeak0EKxxmaicI7pTD8U=,tag:xEAmQXpzWMybOtgGKNC7EA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.13.3

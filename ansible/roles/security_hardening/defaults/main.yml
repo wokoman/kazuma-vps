@@ -1,0 +1,7 @@
+---
+# The provider's accounts (root, ubuntu) come back on a rebuild, so only an
+# explicit allowlist governs them. ssh_interactive_users is in SOPS: this repo
+# is public.
+ssh_allowed_users: >-
+  {{ ([provision_user_name] + ssh_interactive_users.split()
+      + ([backup_pull_user] if backup_enabled | bool else [])) | join(' ') }}

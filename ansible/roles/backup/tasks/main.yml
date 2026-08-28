@@ -3,6 +3,8 @@
   apt:
     name:
       - age
+      # Ships rrsync, which the pull key's forced command runs.
+      - rsync
     state: present
     update_cache: true
 
@@ -19,6 +21,9 @@
   authorized_key:
     user: "{{ backup_pull_user }}"
     key: "{{ backup_pull_pubkey }}"
+    # The account has a shell, so an unrestricted key is arbitrary command
+    # execution. Paths become relative to backup_dir: the NAS pulls from ":/".
+    key_options: 'restrict,command="/usr/bin/rrsync -ro {{ backup_dir }}"'
     exclusive: true
   when: backup_pull_pubkey is defined
 
