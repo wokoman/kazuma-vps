@@ -1,0 +1,4 @@
+<!-- Managed by Ansible (role: forgejo) -->
+{% for v in forgejo_theme_variants %}
+<link rel="stylesheet" href="/assets/css/forgejo-gruvbox-{{ v.scheme }}.css?v={{ forgejo_theme_version }}" media="(prefers-color-scheme: {{ v.scheme }})">
+{% endfor %}

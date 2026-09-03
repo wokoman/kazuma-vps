@@ -29,6 +29,8 @@
     - { path: /var/lib/forgejo/custom, owner: git, mode: '0750' }
     - { path: /var/lib/forgejo/data, owner: git, mode: '0750' }
     - { path: /var/lib/forgejo/log, owner: git, mode: '0750' }
+    - { path: /var/lib/forgejo/custom/public/assets/css, owner: git, mode: '0750' }
+    - { path: /var/lib/forgejo/custom/templates/custom, owner: git, mode: '0750' }
 
 - name: Install the Forgejo binary
   get_url:
@@ -143,6 +145,27 @@
 
       [Install]
       WantedBy=multi-user.target
+  notify: Restart Forgejo
+
+- name: Install the Gruvbox stylesheets
+  get_url:
+    url: "https://github.com/0x61nas/forgejo-gruvbox-styl/releases/download/v{{ forgejo_theme_version }}/forgejo-gruvbox-{{ item.variant }}.css"
+    dest: "/var/lib/forgejo/custom/public/assets/css/forgejo-gruvbox-{{ item.scheme }}.css"
+    checksum: "{{ item.checksum }}"
+    owner: git
+    group: git
+    mode: '0640'
+  loop: "{{ forgejo_theme_variants }}"
+  loop_control:
+    label: "{{ item.variant }}"
+
+- name: Link the Gruvbox stylesheets into every page
+  template:
+    src: header.tmpl.j2
+    dest: /var/lib/forgejo/custom/templates/custom/header.tmpl
+    owner: git
+    group: git
+    mode: '0640'
   notify: Restart Forgejo
 
 - name: Allow Forgejo SSH through UFW

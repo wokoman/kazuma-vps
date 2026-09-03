@@ -564,6 +564,15 @@ Clone URLs use Forgejo's own SSH server, leaving the host's hardened sshd untouc
 git clone ssh://git@git.michalkozak.cz:2222/<owner>/<repo>.git
 ```
 
+### Theme
+
+[forgejo-gruvbox-styl](https://github.com/0x61nas/forgejo-gruvbox-styl), pinned by
+version and per-variant SHA256. It is an overlay, not a theme — it leaves ~60 of
+Forgejo's CSS variables undefined — so the light and dark sheets sit in
+`custom/public/assets/css/` and load from `custom/templates/custom/header.tmpl` behind
+`prefers-color-scheme`. Only `forgejo-auto` tracks that, hence `DEFAULT_THEME`; an
+account pinned to Forgejo Light or Dark still follows the browser.
+
 ### Creating the first account
 
 Registration is disabled, so the admin account is made on the host:
