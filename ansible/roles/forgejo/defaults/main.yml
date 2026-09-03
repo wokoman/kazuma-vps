@@ -12,3 +12,16 @@ forgejo_ssh_port: 2222
 
 forgejo_db_name: forgejo
 forgejo_db_user: forgejo
+
+# Gruvbox skin, layered over the built-in themes rather than shipped as themes
+# of its own: it leaves ~60 of Forgejo's CSS variables undefined. One sheet per
+# colour scheme, picked by the browser's preference, so the base theme has to
+# stay forgejo-auto. Checksums are per variant (*-soft and *-hard also exist).
+forgejo_theme_version: "1.2.3"
+forgejo_theme_variants:
+  - scheme: light
+    variant: light
+    checksum: "sha256:4e1cb95b10effc3db04842fdbbd806321443d40eb4a36842df23d8dc01a680dd"
+  - scheme: dark
+    variant: dark
+    checksum: "sha256:3ebcaec065d4f7d93ad8741f765d8100333c6c9dd9480c2bf61aae257e98bd31"

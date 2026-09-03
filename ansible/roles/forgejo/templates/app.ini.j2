@@ -33,6 +33,10 @@ ROOT = /var/lib/forgejo/repositories
 DEFAULT_BRANCH = main
 DEFAULT_PRIVATE = private
 
+[ui]
+; The Gruvbox sheets follow prefers-color-scheme, so the base theme must too.
+DEFAULT_THEME = forgejo-auto
+
 [security]
 ; Skips the web installer, which would otherwise rewrite this file.
 INSTALL_LOCK = true
