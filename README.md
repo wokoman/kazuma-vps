@@ -265,7 +265,9 @@ Miniflux runs its schema migrations on start (`RUN_MIGRATIONS=1`) and they are o
 
 Known upgrade traps: 2.2.18 blocks feeds and integrations on private networks unless
 `FETCHER_ALLOW_PRIVATE_NETWORKS=1` / `INTEGRATION_ALLOW_PRIVATE_NETWORKS=1` are set, and
-2.2.17 removed `FILTER_ENTRY_MAX_AGE_DAYS` in favour of a `max-age:` filter rule.
+2.2.17 removed `FILTER_ENTRY_MAX_AGE_DAYS` in favour of a `max-age:` filter rule. 2.3.4
+blocks reserved IP ranges and stops per-feed proxy URLs from reaching private networks
+unless `FETCHER_ALLOW_PRIVATE_FEED_PROXY=1` is set.
 
 ## Security & Secrets Management
 
