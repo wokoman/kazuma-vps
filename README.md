@@ -594,6 +594,12 @@ recovery codes too. With no mailer there is no password reset by email — use
 Migrations run on start and are one-way, so back up first and read the release notes.
 Subscribe Miniflux to the Forgejo release feed; that is the upgrade trigger.
 
+Skip 17.0.0: it writes an empty `receive.hideRefs` into
+`/var/lib/forgejo/data/home/.gitconfig`, and on host git 2.42–2.49 (this box has 2.43) that
+hides every packed ref from `git receive-pack`, so pushes to any branch `git gc` has packed
+fail with `cannot lock ref`. Fixed in 17.0.1, which is also the first 17.x built with the
+eMudhra-patched Go. 16.0 is supported until 2026-10-29.
+
 ```bash
 # find the checksum for the version you want
 curl -sL https://codeberg.org/forgejo/forgejo/releases/download/v<X.Y.Z>/forgejo-<X.Y.Z>-linux-amd64.sha256
