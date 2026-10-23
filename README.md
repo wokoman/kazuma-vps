@@ -265,7 +265,9 @@ Miniflux runs its schema migrations on start (`RUN_MIGRATIONS=1`) and they are o
 
 Known upgrade traps: 2.2.18 blocks feeds and integrations on private networks unless
 `FETCHER_ALLOW_PRIVATE_NETWORKS=1` / `INTEGRATION_ALLOW_PRIVATE_NETWORKS=1` are set, and
-2.2.17 removed `FILTER_ENTRY_MAX_AGE_DAYS` in favour of a `max-age:` filter rule.
+2.2.17 removed `FILTER_ENTRY_MAX_AGE_DAYS` in favour of a `max-age:` filter rule. 2.3.4
+blocks reserved IP ranges and stops per-feed proxy URLs from reaching private networks
+unless `FETCHER_ALLOW_PRIVATE_FEED_PROXY=1` is set.
 
 ## Security & Secrets Management
 
@@ -591,6 +593,12 @@ recovery codes too. With no mailer there is no password reset by email — use
 
 Migrations run on start and are one-way, so back up first and read the release notes.
 Subscribe Miniflux to the Forgejo release feed; that is the upgrade trigger.
+
+Skip 17.0.0: it writes an empty `receive.hideRefs` into
+`/var/lib/forgejo/data/home/.gitconfig`, and on host git 2.42–2.49 (this box has 2.43) that
+hides every packed ref from `git receive-pack`, so pushes to any branch `git gc` has packed
+fail with `cannot lock ref`. Fixed in 17.0.1, which is also the first 17.x built with the
+eMudhra-patched Go. 16.0 is supported until 2026-10-29.
 
 ```bash
 # find the checksum for the version you want
