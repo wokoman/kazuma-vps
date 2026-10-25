@@ -32,7 +32,7 @@ The VPS is managed directly with Ansible (no Kubernetes/ArgoCD).
 
 - Ansible installed locally
 - SOPS installed (`brew install sops` on macOS)
-- AGE encryption key at `~/Library/Application Support/sops/age/keys.txt` (macOS)
+- AGE encryption key in sops's default location: `~/.config/sops/age/keys.txt` (Linux) or `~/Library/Application Support/sops/age/keys.txt` (macOS)
 - Ansible collection: `ansible-galaxy collection install community.sops`
 
 ## Getting In
@@ -291,7 +291,7 @@ The `community.sops` Ansible collection automatically decrypts `.sops.yml` files
 
 The repository is configured with:
 - `.sops.yaml` — Defines the AGE public key for encryption
-- `ansible.cfg` — Enables `community.sops.sops` vars plugin and points to your AGE key file
+- `ansible.cfg` — Enables `community.sops.sops` vars plugin; sops resolves the AGE key file per platform
 
 ### Working with Encrypted Files
 
