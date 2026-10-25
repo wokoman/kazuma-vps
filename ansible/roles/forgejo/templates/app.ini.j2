@@ -33,6 +33,9 @@ ROOT = /var/lib/forgejo/repositories
 DEFAULT_BRANCH = main
 DEFAULT_PRIVATE = private
 
+[repository.pull-request]
+DEFAULT_MERGE_STYLE = squash
+
 [ui]
 ; The Gruvbox sheets follow prefers-color-scheme, so the base theme must too.
 DEFAULT_THEME = forgejo-auto
