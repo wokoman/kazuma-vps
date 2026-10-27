@@ -1,8 +1,8 @@
 ---
 forgejo_enabled: false
 
-forgejo_version: "16.0.6"
-forgejo_checksum: "sha256:b90e22c2e5534fd7705d93d81ecea792b00f15cad0ee7bbc3061c65bf9524293"
+forgejo_version: "17.0.1"
+forgejo_checksum: "sha256:51a8cdf4a1252e79f4b3855d7a7891af6c6635105420768c460e2f0690385d6f"
 
 forgejo_app_name: "Forgejo"
 forgejo_http_port: 3000
